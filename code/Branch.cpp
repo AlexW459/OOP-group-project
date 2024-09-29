@@ -66,24 +66,28 @@ void Branch::setPos(float newXPos, float newYPos){
     branchRect.center.y = newYPos+0.5*branchRect.size.height*sin(branchRect.angle);
 }
 
-void Branch::grow(float areaIncrease){
+void Branch::grow(float areaIncrease, float &widthIncrease, float &lengthIncrease){
     //The change in length is equal to (n/age) times the change in width, 
     //so the branch initially grows longer and then later grows wider
 
+    //Set n to an arbitrary value that can be adjusted during testing
     float n = 4;
 
     float width = branchRect.size.width;
     float length = branchRect.size.height;
 
     //formula for the increase in width derived using the quadratic formula
-    float widthIncrease = -width/2 - (length*age)/(2*n) + 
+    widthIncrease = -width/2 - (length*age)/(2*n) + 
     sqrt((pow(width, 2))/4+(width*length*age)/(2*n)+(length*pow(age, 2))/(4*pow(n, 2)));
 
-    float lengthIncrease = (n/age)*widthIncrease;
+    lengthIncrease = (n/age)*widthIncrease;
 
     //Applies changes to variables
     branchRect.size.width += widthIncrease;
     branchRect.size.height += lengthIncrease;
+
+    //Increments age by one
+    age++;
 }
 
 void Branch::draw(Mat* img){

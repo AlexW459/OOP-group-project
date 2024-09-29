@@ -37,7 +37,7 @@ class Branch{
 
         void setPos(float newXPos, float newYPos);
 
-        void grow(float areaIncrease);
+        void grow(float areaIncrease, float &widthIncrease, float &lengthIncrease);
 
         void draw(Mat* img);
 
