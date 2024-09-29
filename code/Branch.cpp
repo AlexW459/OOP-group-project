@@ -3,17 +3,19 @@
 //Sets values to initial vaues specified in the constructor
 Branch::Branch(int branchIndex, float initialAngle, float initialLength, 
 float initialWidth, float initialXPos, float initialYPos): index(branchIndex) {
-    Size size = Size(initialLength, initialWidth);
+    Size size = Size(initialWidth, initialLength);
 
     //Finds the position of the centre of the branch based on the given position of the base of the branch
-    float xPos = initialXPos+0.5*initialLength*cos(initialAngle);
-    float yPos = initialYPos+0.5*initialLength*sin(initialAngle);
+    float xPos = initialXPos-0.5*initialLength*sin(initialAngle * (M_PI / 180));
+    float yPos = initialYPos-0.5*initialLength*cos(initialAngle * (M_PI / 180));
 
-    Point centre = Point(xPos, initialYPos);
+    Point centre = Point(xPos, yPos);
 
     branchRect = RotatedRect(centre, size, initialAngle);
+
 }
 
+Branch::Branch() : Branch(-1, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f) {};
 
 
 float Branch::getAngle(){
@@ -22,8 +24,8 @@ float Branch::getAngle(){
 
 void Branch::getTipPos(float &xPosition, float &yPosition) {
     //Finds position of tip using trigonometry
-    xPosition = branchRect.center.x+0.5*branchRect.size.height*cos(branchRect.angle);
-    yPosition = branchRect.center.y+0.5*branchRect.size.height*sin(branchRect.angle);
+    xPosition = branchRect.center.x+0.5*branchRect.size.height*sin(branchRect.angle * (M_PI / 180));
+    yPosition = branchRect.center.y-0.5*branchRect.size.height*cos(branchRect.angle * (M_PI / 180));
 }
 
 int Branch::getIndex(){
@@ -62,8 +64,8 @@ float Branch::getSize(){
 
 void Branch::setPos(float newXPos, float newYPos){
     //Sets the centre of the branch based on the given coordinates, which are at the base of the branch
-    branchRect.center.x = newXPos+0.5*branchRect.size.height*cos(branchRect.angle);
-    branchRect.center.y = newYPos+0.5*branchRect.size.height*sin(branchRect.angle);
+    branchRect.center.x = newXPos+0.5*branchRect.size.height*cos(branchRect.angle * (M_PI / 180));
+    branchRect.center.y = newYPos+0.5*branchRect.size.height*sin(branchRect.angle * (M_PI / 180));
 }
 
 void Branch::grow(float areaIncrease, float &widthIncrease, float &lengthIncrease){
@@ -73,12 +75,16 @@ void Branch::grow(float areaIncrease, float &widthIncrease, float &lengthIncreas
     //Set n to an arbitrary value that can be adjusted during testing
     float n = 4;
 
+    //Increments age by one
+    age++;
+
     float width = branchRect.size.width;
     float length = branchRect.size.height;
 
     //formula for the increase in width derived using the quadratic formula
     widthIncrease = -width/2 - (length*age)/(2*n) + 
-    sqrt((pow(width, 2))/4+(width*length*age)/(2*n)+(length*pow(age, 2))/(4*pow(n, 2)));
+    sqrt((pow(width, 2))/4+(width*length*age)/(2*n)+(length*pow(age, 2))/(4*pow(n, 2)) + age*areaIncrease/n);
+
 
     lengthIncrease = (n/age)*widthIncrease;
 
@@ -86,8 +92,19 @@ void Branch::grow(float areaIncrease, float &widthIncrease, float &lengthIncreas
     branchRect.size.width += widthIncrease;
     branchRect.size.height += lengthIncrease;
 
-    //Increments age by one
-    age++;
+
+}
+
+void Branch::modifySize(float widthChange, float lengthChange){
+    //Checks that the size modifications are valid
+    if(branchRect.size.width + widthChange <= 0 || branchRect.size.height + lengthChange <= 0) {
+        cout << "Error in Branch.modifySize(), modifications to branch size not valid" << endl;
+        return;
+    }
+
+    //Modifies variables
+    branchRect.size.width += widthChange;
+    branchRect.size.height += lengthChange;
 }
 
 void Branch::draw(Mat* img){
@@ -103,5 +120,6 @@ void Branch::draw(Mat* img){
     }
 
     //Draws the branch to the image;
-    fillConvexPoly(*img, vertices, (100, 100, 100));
+    fillConvexPoly(*img, vertices, CV_RGB(148, 72, 21));
+
 }

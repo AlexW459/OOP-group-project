@@ -6,16 +6,20 @@
 #include <opencv2/highgui.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <vector>
+#include <iostream>
 #include <math.h> 
+
+#define _USE_MATH_DEFINES
 
 using namespace std;
 using namespace cv;
 
 class Branch{
     public:
-        //Constructor
+        //Constructors
         Branch(int branchIndex, float initialAngle, float initialLength, float initialWidth, 
         float xPos, float yPos);
+        Branch();
 
         float getAngle();
 
@@ -38,6 +42,8 @@ class Branch{
         void setPos(float newXPos, float newYPos);
 
         void grow(float areaIncrease, float &widthIncrease, float &lengthIncrease);
+
+        void modifySize(float widthChange, float lengthChange);
 
         void draw(Mat* img);
 
