@@ -21,11 +21,15 @@ int main()
 
     Tree tree(10, 10, new Branch(0, 0, 50, 10, windowWidth/2, windowHeight));
 
-    for(int i = 0; i < 1; i++){
+    for(int i = 0; i < 40; i++){
         float placeholder1, placeholder2;
         vector<float> placeholder3, placeholder4;
         vector<Branch*> placeholder5;
+
         tree.grow(placeholder1, placeholder2, placeholder3, placeholder4, placeholder5);
+
+        tree.addWater(0.5);
+        tree.addNutrients(0.5);
     }
 
 

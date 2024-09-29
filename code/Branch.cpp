@@ -26,6 +26,9 @@ void Branch::getTipPos(float &xPosition, float &yPosition) {
     //Finds position of tip using trigonometry
     xPosition = branchRect.center.x+0.5*branchRect.size.height*sin(branchRect.angle * (M_PI / 180));
     yPosition = branchRect.center.y-0.5*branchRect.size.height*cos(branchRect.angle * (M_PI / 180));
+
+    //xPosition = branchRect.center.x;
+    //yPosition = branchRect.y;
 }
 
 int Branch::getIndex(){
@@ -64,8 +67,8 @@ float Branch::getSize(){
 
 void Branch::setPos(float newXPos, float newYPos){
     //Sets the centre of the branch based on the given coordinates, which are at the base of the branch
-    branchRect.center.x = newXPos+0.5*branchRect.size.height*cos(branchRect.angle * (M_PI / 180));
-    branchRect.center.y = newYPos+0.5*branchRect.size.height*sin(branchRect.angle * (M_PI / 180));
+    branchRect.center.x = newXPos+0.5*branchRect.size.height*sin(branchRect.angle * (M_PI / 180));
+    branchRect.center.y = newYPos-0.5*branchRect.size.height*cos(branchRect.angle * (M_PI / 180));
 }
 
 void Branch::grow(float areaIncrease, float &widthIncrease, float &lengthIncrease){
@@ -82,9 +85,10 @@ void Branch::grow(float areaIncrease, float &widthIncrease, float &lengthIncreas
     float length = branchRect.size.height;
 
     //formula for the increase in width derived using the quadratic formula
-    widthIncrease = -width/2 - (length*age)/(2*n) + 
-    sqrt((pow(width, 2))/4+(width*length*age)/(2*n)+(length*pow(age, 2))/(4*pow(n, 2)) + age*areaIncrease/n);
+    //widthIncrease = -width/2 - (length*age)/(2*n) + 
+    //sqrt((pow(width, 2))/4+(width*length*age)/(2*n)+(length*pow(age, 2))/(4*pow(n, 2)) + age*areaIncrease/n);
 
+    widthIncrease = (-(n*width)/age-length+sqrt(pow((n*width)/age+length, 2)+(4*n*areaIncrease)/age))/(2*n/age);
 
     lengthIncrease = (n/age)*widthIncrease;
 

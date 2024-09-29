@@ -1,17 +1,26 @@
 #include "Tree.h"
 
-//Maximum width of a branch before it will no longer sprout new branches
+//Maximum area of a branch before it will no longer sprout new branches
 const float NEW_BRANCH_THRESHOLD = 5000;
+
+
 //Required nutrients and water for a new branch to grow
 const float NEW_BRANCH_REQUIREMENT = 3;
 
 //Scales the amount that branches grow by with a given amount of food
-const float BRANCH_GROWTH_AMOUNT = 300;
+const float BRANCH_GROWTH_AMOUNT = 50;
+
+//Chance of each existing branch growing a new branch
+const float NEW_BRANCH_PROBABILITY = 0.4;
+
 
 Tree::Tree(float initialWater, float initialNutrients, Branch* trunk): waterLevel(initialWater), 
 nutrientLevel(initialNutrients), maxIndex(1) {
     //Adds the trunk as the first branch in the list
     branchList.push_back(trunk);
+
+    maxWater = trunk->getSize()/50;
+    maxNutrients = trunk->getSize()/50;
 
     //sets a seed for randomly generated numbers
     long int t = static_cast<long int> (time(NULL));
@@ -82,12 +91,19 @@ vector<float> &widthIncreases, vector<float> &lengthIncreases, vector<Branch*> &
     waterLevel*=0.8;
     nutrientLevel*= 0.8;
 
-    for(int i = 0; i < branchList.size(); i++){
+    int currentNumBranches = branchList.size();
+
+    float totalArea = 0;
+
+    for(int branchIndex = 0; branchIndex < currentNumBranches; branchIndex++){
+
         float widthGrowth;
         float lengthGrowth;
 
         //Grows the branch by the calculated amount
-        branchList[i]->grow(branchGrowthAmount, widthGrowth, lengthGrowth);
+        branchList[branchIndex]->grow(branchGrowthAmount, widthGrowth, lengthGrowth);
+
+        totalArea += branchList[branchIndex]->getSize();
 
         //Adds the growth amounts to the corresponding lists
         widthIncreases.push_back(widthGrowth);
@@ -95,36 +111,46 @@ vector<float> &widthIncreases, vector<float> &lengthIncreases, vector<Branch*> &
 
         //Moves all of the child branches in accordance with the branch's growth
         //Gets children of current branch
-        vector<int> childIndices = branchList[i]->getChildren();
+        vector<int> childIndices = branchList[branchIndex]->getChildren();
 
         //Gets new position of the tip of the current branch
         float newTipX;
         float newTipY;
-        branchList[i]->getTipPos(newTipX, newTipY);
+        branchList[branchIndex]->getTipPos(newTipX, newTipY);
 
         //Loops through all of the children
-        for(int i = 0; i < childIndices.size(); i++){
+        for(int childIndex = 0; childIndex < childIndices.size(); childIndex++){
             //Adjusts position of branches
-            branchList[findBranch(childIndices[i])]->setPos(newTipX, newTipY);
+            branchList[findBranch(childIndices[childIndex])]->setPos(newTipX, newTipY);
         }
 
-
         //Adds a new branch if the tree has the required nutrients and water
-        if(min(nutrientLevel, waterLevel) > NEW_BRANCH_REQUIREMENT && branchList[i]->getSize() < NEW_BRANCH_THRESHOLD){
-            
-            //Gets the angle of the current branch
-            float currentBranchAngle = branchList[i]->getAngle();
+        if(min(nutrientLevel, waterLevel) > NEW_BRANCH_REQUIREMENT && 
+        branchList[branchIndex]->getSize() < NEW_BRANCH_THRESHOLD &&
+        (float)rand()/RAND_MAX < NEW_BRANCH_PROBABILITY){
 
-            //Generates a random number between -45 and 45
-            float newAngle = 90*((float)(rand()) /RAND_MAX-0.5);
+            //Gets the angle of the current branch
+            float currentBranchAngle = branchList[branchIndex]->getAngle();
+
+            //Generates a random number between -70 and 70
+            float newAngle = 140*((float)(rand()) /RAND_MAX-0.5);
             Branch* newBranch = new Branch(maxIndex, newAngle, 50, 10, newTipX, newTipY);
             branchList.push_back(newBranch);
             
+           
+            branchList[branchIndex]->addChild(maxIndex);
+            
+            totalArea += branchList[maxIndex]->getSize();
 
             //Increments the highest index
             maxIndex++;
         }
+
     }
+
+    //Updates the maximum water and nutrients that can be stored in the tree
+    maxWater = totalArea/50;
+    maxNutrients = totalArea/50;
 
 }
 
