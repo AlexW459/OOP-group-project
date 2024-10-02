@@ -37,6 +37,8 @@ int main()
     cv::imshow("Display window", img);
 
 
-    int k = waitKey(0); // Wait for a keystroke in the window
+    while(pollKey() != 27) {
+
+    } // Wait for the user to press the escape key
     return 0;
 }
