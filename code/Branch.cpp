@@ -6,7 +6,7 @@ float initialWidth, float initialXPos, float initialYPos): index(branchIndex) {
     Size size = Size(initialWidth, initialLength);
 
     //Finds the position of the centre of the branch based on the given position of the base of the branch
-    float xPos = initialXPos-0.5*initialLength*sin(initialAngle * (M_PI / 180));
+    float xPos = initialXPos+0.5*initialLength*sin(initialAngle * (M_PI / 180));
     float yPos = initialYPos-0.5*initialLength*cos(initialAngle * (M_PI / 180));
 
     Point centre = Point(xPos, yPos);

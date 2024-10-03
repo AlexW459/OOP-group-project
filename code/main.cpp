@@ -21,7 +21,7 @@ int main()
 
     Tree tree(10, 10, new Branch(0, 0, 50, 10, windowWidth/2, windowHeight));
 
-    for(int i = 0; i < 40; i++){
+    for(int i = 0; i < 30; i++){
         float placeholder1, placeholder2;
         vector<float> placeholder3, placeholder4;
         vector<Branch*> placeholder5;
@@ -30,15 +30,19 @@ int main()
 
         tree.addWater(0.5);
         tree.addNutrients(0.5);
+
+            tree.draw(&img);
+        cv::imshow("Display window", img);
+
+            while(pollKey() != 32) {
+
+        } // Wait for the user to press the escape key
     }
 
 
-    tree.draw(&img);
-    cv::imshow("Display window", img);
 
 
-    while(pollKey() != 27) {
 
-    } // Wait for the user to press the escape key
+
     return 0;
 }
