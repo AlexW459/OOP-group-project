@@ -2,7 +2,7 @@
 
 //Sets values to initial vaues specified in the constructor
 Branch::Branch(int branchIndex, float initialAngle, float initialLength, 
-float initialWidth, float initialXPos, float initialYPos): index(branchIndex) {
+float initialWidth, float initialXPos, float initialYPos): index(branchIndex), age(0) {
     Size size = Size(initialWidth, initialLength);
 
     //Finds the position of the centre of the branch based on the given position of the base of the branch
@@ -76,7 +76,7 @@ void Branch::grow(float areaIncrease, float &widthIncrease, float &lengthIncreas
     //so the branch initially grows longer and then later grows wider
 
     //Set n to an arbitrary value that can be adjusted during testing
-    float n = 10;
+    float n = 20;
 
     //Increments age by one
     age++;
