@@ -88,8 +88,9 @@ vector<float> &widthIncreases, vector<float> &lengthIncreases, vector<Branch*> &
     float branchGrowthAmount = BRANCH_GROWTH_AMOUNT*growthAmount/branchList.size();
 
 
-    waterLevel*=0.8;
-    nutrientLevel*= 0.8;
+    //Removes water and nutrients based on the size of the tree
+    waterLevel-= maxWater*0.05;
+    nutrientLevel-= maxNutrients*0.05;
 
     int currentNumBranches = branchList.size();
 

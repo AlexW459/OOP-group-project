@@ -28,8 +28,8 @@ int main()
 
         tree.grow(placeholder1, placeholder2, placeholder3, placeholder4, placeholder5);
 
-        tree.addWater(0.5);
-        tree.addNutrients(0.5);
+        tree.addWater(i);
+        tree.addNutrients(i);
 
             tree.draw(&img);
         cv::imshow("Display window", img);

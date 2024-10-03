@@ -76,7 +76,7 @@ void Branch::grow(float areaIncrease, float &widthIncrease, float &lengthIncreas
     //so the branch initially grows longer and then later grows wider
 
     //Set n to an arbitrary value that can be adjusted during testing
-    float n = 4;
+    float n = 10;
 
     //Increments age by one
     age++;
