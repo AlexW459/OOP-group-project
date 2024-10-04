@@ -5,19 +5,44 @@
 #include <opencv2/imgproc.hpp>
 #include <opencv2/highgui.hpp>
 
+#include "Tree.h"
+#include "Branch.h"
+
 using namespace cv;
 using namespace std;
+
 int main()
 {
-    string image_path = "../resources/AUDBF.png";
-    Mat img = imread(image_path, IMREAD_COLOR);
+    const int windowHeight = 400;
+    const int windowWidth = 600;
 
-    
 
-    Rect newRect = Rect(20, 20, 100, 100);
-    rectangle(img, newRect, Scalar(0, 255, 0), FILLED);
+    Mat img(windowHeight, windowWidth, CV_8UC3, CV_RGB(150, 150, 255));
 
-    imshow("Display window", img);
-    int k = waitKey(0); // Wait for a keystroke in the window
+    Tree tree(10, 10, new Branch(0, 0, 50, 10, windowWidth/2, windowHeight));
+
+    for(int i = 0; i < 30; i++){
+        float placeholder1, placeholder2;
+        vector<float> placeholder3, placeholder4;
+        vector<Branch*> placeholder5;
+
+        tree.grow(placeholder1, placeholder2, placeholder3, placeholder4, placeholder5);
+
+        tree.addWater(i);
+        tree.addNutrients(i);
+
+            tree.draw(&img);
+        cv::imshow("Display window", img);
+
+            while(pollKey() != 32) {
+
+        } // Wait for the user to press the escape key
+    }
+
+
+
+
+
+
     return 0;
 }
