@@ -6,10 +6,12 @@ private:
     int fertilizerSupply;  // Amount of fertilizer the player has
 
 public:
-    useWater(int amount);
-    useFertilizer(int amount);
-    Player(int water, int fertilizer) : waterSupply(water), fertilizerSupply(fertilizer) {}
+    Player(int water, int fertilizer) : waterSupply(water), fertilizerSupply(fertilizer) {};
+
+    bool useWater(int amount);
+    bool useFertilizer(int amount);
+
     // Getters for current supplies
-    int getWaterSupply() const { return waterSupply; }
-    int getFertilizerSupply() const { return fertilizerSupply; }
+    int getWaterSupply();
+    int getFertilizerSupply();
 };
