@@ -10,6 +10,6 @@ public:
     bool useFertilizer(int amount);
     Player(int water, int fertilizer) : waterSupply(water), fertilizerSupply(fertilizer) {}
     // Getters for current supplies
-    int getWaterSupply() { return waterSupply; }
+    int getWaterSupply() git pul{ return waterSupply; }
     int getFertilizerSupply() { return fertilizerSupply; }
 };
