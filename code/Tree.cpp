@@ -19,12 +19,12 @@ nutrientLevel(initialNutrients), maxIndex(1) {
     //Adds the trunk as the first branch in the list
     branchList.push_back(trunk);
 
-    maxWater = trunk->getSize()/50;
-    maxNutrients = trunk->getSize()/50;
-
     //sets a seed for randomly generated numbers
     long int t = static_cast<long int> (time(NULL));
     srand(t);
+
+    //Updates the max water and nutrients of the tree
+    updateMaxConstraints();
 
 }
 
@@ -73,15 +73,26 @@ float Tree::addNutrients(float kilograms){
     }
 }
 
+void Tree::removeWater(float litres){
+    waterLevel -= litres;
+}
+
+void Tree::removeNutrients(float kilograms){
+    nutrientLevel -= kilograms;
+}
+
 void Tree::addBranches(vector<Branch*> newBranches){
     //Adds the additional branches to the tree
     for(int i = 0; i < newBranches.size(); i++){
         branchList.push_back(newBranches[i]);
     }
+
+    //Updates the max water and nutrients of the tree
+    updateMaxConstraints();
 }
 
 void Tree::grow(float &waterConsumed, float &nutrientsConsumed, 
-vector<float> &widthIncreases, vector<float> &lengthIncreases, vector<Branch*> &branchesGrown){
+    vector<float> &widthIncreases, vector<float> &lengthIncreases, vector<int> &branchesGrown){
 
     //Finds the growth amount of each branch based on the amount of water and nutrients
     float growthAmount = min(waterLevel, nutrientLevel);
@@ -92,9 +103,11 @@ vector<float> &widthIncreases, vector<float> &lengthIncreases, vector<Branch*> &
     waterLevel-= maxWater*0.05;
     nutrientLevel-= maxNutrients*0.05;
 
-    int currentNumBranches = branchList.size();
+    //Updates output variables based on the amount of water and nutrients consumed
+    waterConsumed = maxWater*0.05;
+    nutrientsConsumed = maxNutrients*0.05;
 
-    float totalArea = 0;
+    int currentNumBranches = branchList.size();
 
     for(int branchIndex = 0; branchIndex < currentNumBranches; branchIndex++){
 
@@ -104,7 +117,6 @@ vector<float> &widthIncreases, vector<float> &lengthIncreases, vector<Branch*> &
         //Grows the branch by the calculated amount
         branchList[branchIndex]->grow(branchGrowthAmount, widthGrowth, lengthGrowth);
 
-        totalArea += branchList[branchIndex]->getSize();
 
         //Adds the growth amounts to the corresponding lists
         widthIncreases.push_back(widthGrowth);
@@ -135,13 +147,14 @@ vector<float> &widthIncreases, vector<float> &lengthIncreases, vector<Branch*> &
 
             //Generates a random number between -70 and 70
             float newAngle = 140*((float)(rand()) /RAND_MAX-0.5);
-            Branch* newBranch = new Branch(maxIndex, newAngle, 50, 10, newTipX, newTipY);
+            Branch* newBranch = new Branch(maxIndex, branchIndex, newAngle, 50, 10, newTipX, newTipY);
             branchList.push_back(newBranch);
-            
+
+            //Adds the new branch index to the list of new branches grown
+            branchesGrown.push_back(maxIndex);
            
             branchList[branchIndex]->addChild(maxIndex);
             
-            totalArea += branchList[maxIndex]->getSize();
 
             //Increments the highest index
             maxIndex++;
@@ -149,9 +162,75 @@ vector<float> &widthIncreases, vector<float> &lengthIncreases, vector<Branch*> &
 
     }
 
-    //Updates the maximum water and nutrients that can be stored in the tree
-    maxWater = totalArea/50;
-    maxNutrients = totalArea/50;
+    //Updates the max water and nutrients of the tree
+    updateMaxConstraints();
+
+}
+
+void Tree::pruneBranch(int branchIndex, vector<Branch*> &removedBranches) {
+    
+    //Gets children of branch
+    vector<int> childIndices = branchList[findBranch(branchIndex)]->getChildren();
+
+    //Creates a vector with just the initial branch index in it
+    vector<int> initialBranchToRemove;
+    initialBranchToRemove.push_back(branchIndex);
+    //Adds the first branch to the list of removed branches
+    removedBranches.push_back(branchList[findBranch(branchIndex)]);
+    //Removes the pruned branch
+    removeBranches(initialBranchToRemove);
+
+    //Finds the children of children, etc, of the branch
+
+    //Stores the children of children that were just found in the last iteration of the loop
+    vector<int> newChildren = childIndices;
+    vector<int> newChildrenOfChildren;
+
+    //Repeats loop once for each branch in the tree, which is the maximum number of times it might
+    //need to repeat, although it probably won't need to repeat that many times
+    for(int i = 0; i < branchList.size(); i++){
+        for(int j = 0; j < newChildren.size(); j++){
+            //Gets children of current child
+            vector<int> newestChildren = branchList[findBranch(newChildren[i])]->getChildren();
+            newChildrenOfChildren.insert(newChildrenOfChildren.end(), newestChildren.begin(), newestChildren.end());
+            //Adds children onto array containing all children
+            childIndices.insert(childIndices.end(), newestChildren.begin(), newestChildren.end());
+
+        }
+
+        //Sets the array to be iterated over to the list of children that was just found
+        newChildren = newChildrenOfChildren;
+        //Clears the vector in preperation for the next iteration of the loop
+        newChildrenOfChildren.clear();
+    }
+
+    //Adds children to list of removed branches
+    for(int i = 0; i < childIndices.size(); i++){
+        removedBranches.push_back(branchList[findBranch(childIndices[i])]);
+    }
+
+    //Removes all branches found above
+    removeBranches(childIndices);
+
+    //Updates the max water and nutrients of the tree
+    updateMaxConstraints();
+
+}
+
+void Tree::removeBranches(vector<int> branchIndices){
+    //Loops through given list of branches
+    for(int i = 0; i < branchIndices.size(); i++){
+        //Removes the branch from its parent's list of children
+        int parentIndex = branchList[findBranch(branchIndices[i])]->getParentIndex();
+        branchList[findBranch(parentIndex)]->removeChild(branchIndices[i]);
+
+        //Removes the branch itself
+        branchList.erase(branchList.begin()+findBranch(branchIndices[i]));
+
+    }
+
+    //Updates the max water and nutrients of the tree
+    updateMaxConstraints();
 
 }
 
@@ -165,7 +244,7 @@ void Tree::modifyBranches(vector<float> widthIncreases, vector<float> lengthIncr
     //Loops through each of the branches in the tree
     for(int i = 0; i < branchList.size(); i++){
         //Adjusts branch size
-        branchList[i]->modifySize(widthIncreases[i], lengthIncreases[i]);
+        branchList[i]->modifySize(-widthIncreases[i], -1*lengthIncreases[i]);
 
         //Moves child branches to account for the change in size of their parent
 
@@ -184,6 +263,9 @@ void Tree::modifyBranches(vector<float> widthIncreases, vector<float> lengthIncr
         }
 
     }
+
+    //Updates the max water and nutrients of the tree
+    updateMaxConstraints();
 }
 
 int Tree::findBranch(int index){
@@ -196,9 +278,22 @@ int Tree::findBranch(int index){
     return 0;
 }
 
+void Tree::updateMaxConstraints(){
+    float totalArea = 0;
+
+    for(int i =0; i < branchList.size(); i++){
+        totalArea += branchList[i]->getSize();
+    }
+
+    //Updates the maximum water and nutrients that can be stored in the tree
+    maxWater = totalArea/50;
+    maxNutrients = totalArea/50;
+}
+
 void Tree::draw(Mat* img){
     //Loops through each of the branches in the tree
     for(int i = 0; i < branchList.size(); i++){
         branchList[i]->draw(img);
     }
 }
+

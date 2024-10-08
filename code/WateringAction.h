@@ -7,12 +7,15 @@
 
 class WateringAction : public Action {
 public:
-    WateringAction(Player &playerToModify, Tree &treeToModify, float litresToAdd);
+    WateringAction(Player* currentPlayer, Tree* currentTree, float litresToAdd);
 
-    void performAction();
-    void reverseAction();
+    virtual void performAction();
+    virtual void reverseAction();
 
-private:
+protected:
+    Player* playerToModify;
+    Tree* treeToModify;
+
     float waterAdded;
     float waterAbsorbed;
 };

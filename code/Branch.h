@@ -17,7 +17,7 @@ using namespace cv;
 class Branch{
     public:
         //Constructors
-        Branch(int branchIndex, float initialAngle, float initialLength, float initialWidth, 
+        Branch(int branchIndex, int parentBranchIndex, float initialAngle, float initialLength, float initialWidth, 
         float xPos, float yPos);
         Branch();
 
@@ -27,6 +27,8 @@ class Branch{
         void getTipPos(float &xPosition, float &yPosition);
 
         int getIndex();
+
+        int getParentIndex();
         
         //Adds a new branch to the list of child indices
         void addChild(int index);
@@ -53,7 +55,10 @@ class Branch{
         //Indices of all branches stemming from this branch
         vector<int> childIndices;
 
-        //Rectanle representing the branch
+        //Index of the branch's parent
+        int parentIndex;
+
+        //Rectangle representing the branch
         RotatedRect branchRect;
 
         //Number of times the branch has been allowed to grow
