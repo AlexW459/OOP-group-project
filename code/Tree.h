@@ -6,6 +6,7 @@
 #include <iostream>
 #include "Branch.h"
 
+
 using namespace std;
 
 class Tree{
@@ -45,7 +46,7 @@ class Tree{
         void updateMaxConstraints();
 
         void draw(Mat* img);
-    private:
+    public:
         vector<Branch*> branchList;
 
         int maxIndex;
