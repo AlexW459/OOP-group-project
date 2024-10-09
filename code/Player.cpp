@@ -27,10 +27,24 @@ bool Player::useFertilizer(int amount) {
     }
 }
 
-int Player::getWaterSupply() {
-    return waterSupply; 
+// Method to add water to the player's supply
+void Player::addWater(int amount) {
+    waterSupply += amount;
+    std::cout << "Added " << amount << " units of water. Total water: " << waterSupply << std::endl;
 }
 
+// Method to add fertilizer to the player's supply
+void Player::addFertilizer(int amount) {
+    fertilizerSupply += amount;
+    std::cout << "Added " << amount << " units of fertilizer. Total fertilizer: " << fertilizerSupply << std::endl;
+}
+
+// Get current water supply
+int Player::getWaterSupply() {
+    return waterSupply;
+}
+
+// Get current fertilizer supply
 int Player::getFertilizerSupply() {
-     return fertilizerSupply; 
+    return fertilizerSupply;
 }

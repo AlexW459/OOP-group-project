@@ -1,3 +1,6 @@
+#ifndef PLAYER_H
+#define PLAYER_H
+
 #include <iostream>
 
 class Player {
@@ -6,10 +9,20 @@ private:
     int fertilizerSupply;  // Amount of fertilizer the player has
 
 public:
+    // Constructor
+    Player(int water, int fertilizer);
+
+    // Methods for using resources
     bool useWater(int amount);
     bool useFertilizer(int amount);
-    Player(int water, int fertilizer) : waterSupply(water), fertilizerSupply(fertilizer) {}
+
+    // New methods for adding resources
+    void addWater(int amount);
+    void addFertilizer(int amount);
+
     // Getters for current supplies
-    int getWaterSupply() git pul{ return waterSupply; }
-    int getFertilizerSupply() { return fertilizerSupply; }
+    int getWaterSupply();
+    int getFertilizerSupply();
 };
+
+#endif
