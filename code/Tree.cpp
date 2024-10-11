@@ -291,9 +291,18 @@ void Tree::updateMaxConstraints(){
 }
 
 void Tree::draw(Mat* img){
+    cout << "Tree object" << endl;
+
     //Loops through each of the branches in the tree
+    cout << "List of branches in the tree: " << endl;
     for(int i = 0; i < branchList.size(); i++){
         branchList[i]->draw(img);
     }
+
+    cout << "Water level: " << waterLevel << endl;;
+    cout << "Max water: " << maxWater << endl;
+    cout << "Nutrient level: " << nutrientLevel << endl;
+    cout << "Max nutrients: " << maxNutrients << endl;
+
 }
 

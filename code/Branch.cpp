@@ -140,7 +140,7 @@ void Branch::printData(){
 
         cout << "List of all child branches: " << endl;
         for (int i = 0; i < childIndices.size(); i++){
-            cout << childIndices(i) << ", "; 
+            cout << childIndices[i] << ", "; 
         } 
         cout << endl;
         cout << "Index of the branch's parent: " << parentIndex << endl;

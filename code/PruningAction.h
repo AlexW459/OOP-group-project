@@ -11,6 +11,8 @@ class PruningAction : public Action{
         void performAction();
         void reverseAction();
 
+        void printData();
+
     private:
         int index;
         vector<Branch*> branchesRemoved;

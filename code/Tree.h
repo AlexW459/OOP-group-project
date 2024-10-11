@@ -5,11 +5,12 @@
 #include <opencv2/core.hpp>
 #include <iostream>
 #include "Branch.h"
+#include "Printable.h"
 
 
 using namespace std;
 
-class Tree{
+class Tree : public Printable{
     public:
         Tree(float initialWater, float initialNutrients, Branch* trunk);
         ~Tree();
@@ -46,7 +47,10 @@ class Tree{
         void updateMaxConstraints();
 
         void draw(Mat* img);
-    public:
+
+
+        void printData();
+    private:
         vector<Branch*> branchList;
 
         int maxIndex;
