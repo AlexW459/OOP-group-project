@@ -19,19 +19,19 @@ int main()
 
     Mat img(windowHeight, windowWidth, CV_8UC3, CV_RGB(150, 150, 255));
 
-    Tree tree(10, 10, new Branch(0, 0, 50, 10, windowWidth/2, windowHeight));
+    Tree tree(10, 10, new Branch(0, 0, 1, 50, 10, windowWidth/2, windowHeight));
 
     for(int i = 0; i < 30; i++){
         float placeholder1, placeholder2;
         vector<float> placeholder3, placeholder4;
-        vector<Branch*> placeholder5;
+        vector<int> placeholder5;
 
         tree.grow(placeholder1, placeholder2, placeholder3, placeholder4, placeholder5);
 
         tree.addWater(i);
         tree.addNutrients(i);
 
-            tree.draw(&img);
+        tree.draw(&img);
         cv::imshow("Display window", img);
 
             while(pollKey() != 32) {

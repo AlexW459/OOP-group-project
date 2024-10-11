@@ -1,8 +1,8 @@
 #include "Branch.h"
 
 //Sets values to initial vaues specified in the constructor
-Branch::Branch(int branchIndex, float initialAngle, float initialLength, 
-float initialWidth, float initialXPos, float initialYPos): index(branchIndex), age(0) {
+Branch::Branch(int branchIndex, int parentBranchIndex, float initialAngle, float initialLength, 
+float initialWidth, float initialXPos, float initialYPos): index(branchIndex), parentIndex(parentBranchIndex), age(0) {
     Size size = Size(initialWidth, initialLength);
 
     //Finds the position of the centre of the branch based on the given position of the base of the branch
@@ -15,7 +15,7 @@ float initialWidth, float initialXPos, float initialYPos): index(branchIndex), a
 
 }
 
-Branch::Branch() : Branch(-1, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f) {};
+Branch::Branch() : Branch(-1, -1, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f) {};
 
 
 float Branch::getAngle(){
@@ -33,6 +33,10 @@ void Branch::getTipPos(float &xPosition, float &yPosition) {
 
 int Branch::getIndex(){
     return index;
+}
+
+int Branch::getParentIndex(){
+    return parentIndex;
 }
 
 void Branch::addChild(int childIndex) {

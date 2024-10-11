@@ -23,6 +23,10 @@ public:
     // Getters for current supplies
     int getWaterSupply();
     int getFertilizerSupply();
+<<<<<<< HEAD
 };
 
 #endif
+=======
+};
+>>>>>>> 94b521799deaaa6be3600bc326dfeb7d12530ac2
