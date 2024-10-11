@@ -5,12 +5,13 @@
 #include "Tree.h"
 #include "Player.h"
 
-class WateringAction : public Action {
+class WateringAction : public Action : public Printable{
 public:
     WateringAction(Player* currentPlayer, Tree* currentTree, float litresToAdd);
 
     virtual void performAction();
     virtual void reverseAction();
+    virtual void printData();
 
 protected:
     Player* playerToModify;

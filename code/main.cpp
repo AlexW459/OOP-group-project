@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #include <iostream>
 #include <filesystem>
 #include <fstream>
@@ -100,3 +101,5 @@ int main() {
 
     return 0;
 }
+=======
+>>>>>>> 3239bf075232104d30ec0ffb7d9a46f082d63bb8
