@@ -85,6 +85,8 @@ int main() {
         while (pollKey() != 32) {} // Wait for spacebar
     }
 
+    }
+
     // Callback Setup NEEDS TO HAPPEN OUTSIDE GROWTH LOOP DO NOT MOVE
     for (auto& clickable : clickables) {
         // will get the call back id for action and execute it after growth
