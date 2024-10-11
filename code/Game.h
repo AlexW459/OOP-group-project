@@ -12,7 +12,7 @@ class Game {
         ~Game();
 
         void handleInputs(){
-
+// Print out what you want to do and give each option and ask for a prompt and do a Cin to detect what they have done
         }
 
         void drawScreen(){

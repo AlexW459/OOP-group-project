@@ -6,13 +6,14 @@
 
 using namespace std;
 
-class Timeline{
+class Timeline : public Printable{
     public:
         Timeline();
         ~Timeline();
 
         void performAction(Action* actionToPerform);
         void reverseAction();
+        void printData();
 
     private:
         vector<Action*> listOfActions;

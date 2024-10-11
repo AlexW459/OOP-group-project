@@ -25,3 +25,11 @@ void Timeline::reverseAction(){
     listOfActions.pop_back();
 }
 
+void Timeline::printData(){
+    cout << "Timeline of all actions" << endl;
+    cout << "List of all actions: " << endl; 
+    for (int i = 0; i < listOfActions.size(); i++){
+        cout << listOfActions[i] << ", "; 
+    } 
+    cout << endl;
+}
