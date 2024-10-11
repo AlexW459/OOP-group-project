@@ -130,4 +130,22 @@ void Branch::draw(Mat* img){
     //Draws the branch to the image;
     fillConvexPoly(*img, vertices, CV_RGB(148, 72, 21));
 
+    void Branch::printData(){
+        cout << "Branch Growing" << endl;
+        cout << "Index of Branch in a tree: " << index << endl;
+
+        cout << "List of all child branches: " << endl;
+        for (int i = 0; i < childIndices.size(); i++){
+            cout << childIndices(i) << ", "; 
+        } 
+        cout << endl;
+        cout << "Index of the branch's parent: " << parentIndex << endl;
+        cout << "Rectangle's heigh: " << branchRect.height << endl;
+        cout << "Rectangle's width: " << branchRect.width <<endl;
+        cout << "Rectangle's x position: " << branchRect.x << endl;
+        cout << "Rectangle's y position: " << branchRect.y << endl;
+        cout << "Rectangle's angle position: " << branchRect.angle << endl;
+        cout << "Number of times the branch has been allowed to grow: " << age << endl;
+    }
+
 }

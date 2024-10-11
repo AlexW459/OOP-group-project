@@ -14,7 +14,7 @@
 using namespace std;
 using namespace cv;
 
-class Branch{
+class Branch : public Printable{
     public:
         //Constructors
         Branch(int branchIndex, int parentBranchIndex, float initialAngle, float initialLength, float initialWidth, 
@@ -48,6 +48,8 @@ class Branch{
         void modifySize(float widthChange, float lengthChange);
 
         void draw(Mat* img);
+
+        void printData();
 
     private:
         //Index of branch in tree
