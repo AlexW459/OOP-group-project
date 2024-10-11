@@ -13,4 +13,10 @@ void FertilisingAction::performAction(){
 void FertilisingAction::reverseAction(){
     playerToModify->addFertiliser(nutrientsAbsorbed);
     WateringAction::reverseAction();
+};
+
+void FertilisingAction::printData(){
+    cout << "Fertilising action object" << endl;
+    cout << "Nutrients added: " << nutrientsAdded << endl;
+    cout << "Nutrients absorbed: " << nutrientsAbsorbed << endl;
 }
