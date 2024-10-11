@@ -5,12 +5,13 @@
 #include "Tree.h"
 #include "Player.h"
 
-class GrowingAction : public Action {
+class GrowingAction : public Action : public Printable{
     public:
         GrowingAction(Tree* currentTree);
 
         void performAction();
         void reverseAction();
+        void printdata();
 
     private:
         Tree* treeToModify;
