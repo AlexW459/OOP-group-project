@@ -5,8 +5,8 @@
 
 class Player {
 private:
-    int waterSupply;       // Amount of water the player has
-    int fertilizerSupply;  // Amount of fertilizer the player has
+    float waterSupply;       // Amount of water the player has
+    float fertilizerSupply;  // Amount of fertilizer the player has
 
 public:
     // Constructor
@@ -23,10 +23,6 @@ public:
     // Getters for current supplies
     int getWaterSupply();
     int getFertilizerSupply();
-<<<<<<< HEAD
 };
 
 #endif
-=======
-};
->>>>>>> 94b521799deaaa6be3600bc326dfeb7d12530ac2
