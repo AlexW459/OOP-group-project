@@ -22,7 +22,7 @@ int main(void) {
 
     game.drawScreen();
 
-    waitKey(0.3);
+    while(pollKey() != 27){};
 
     return 0;
 }

@@ -21,22 +21,29 @@ Game::Game(int windowWidth, int windowHeight) : gameRunning(true), currentState(
     Rect mainMenuButtonRect(WINDOW_WIDTH/2-100, WINDOW_HEIGHT/2-50, 200, 100);
     buttonList.push_back(new Clickable(mainMenuButtonRect, 1, "Play"));
 
+    Rect instructionMenuButtonRect(WINDOW_WIDTH/2-100, WINDOW_HEIGHT/2+60, 200, 100);
+    buttonList.push_back(new Clickable(instructionMenuButtonRect, 2, "Instructions"));
+
+    Rect backButtonRect(10, 10, 200, 100);
+    buttonList.push_back(new Clickable(backButtonRect, 3, "Back" ));
+
+    Rect cancelPruningRect(10, WINDOW_HEIGHT-110, 200, 100);
+    buttonList.push_back(new Clickable(cancelPruningRect, 4, "Cancel"));
+
     Rect waterTreeButtonRect(WINDOW_WIDTH-100, 0, 200, 100);
-    buttonList.push_back(new Clickable(mainMenuButtonRect, 2, "Water tree"));
+    buttonList.push_back(new Clickable(mainMenuButtonRect, 5, "Water tree"));
 
     Rect fertiliseTreeRect(WINDOW_WIDTH-100, 100, 200, 100);
-    buttonList.push_back(new Clickable(fertiliseTreeRect, 3, "Fertilise tree"));
+    buttonList.push_back(new Clickable(fertiliseTreeRect, 6, "Fertilise tree"));
 
     Rect pruneBranchRect(WINDOW_WIDTH-100, 200, 200, 100);
-    buttonList.push_back(new Clickable(pruneBranchRect, 3, "Prune branch"));
+    buttonList.push_back(new Clickable(pruneBranchRect, 7, "Prune branch"));
 
     Rect growTreeRect(WINDOW_WIDTH-100, 300, 200, 100);
-    buttonList.push_back(new Clickable(growTreeRect, 3, "Grow tree"));
-
+    buttonList.push_back(new Clickable(growTreeRect, 8, "Grow tree"));
 
     Rect reverseActionRect(WINDOW_WIDTH-100, 400, 200, 100);
-    buttonList.push_back(new Clickable(reverseActionRect, 3, "Reverse action"));
-
+    buttonList.push_back(new Clickable(reverseActionRect, 9, "Reverse action"));
 
 }
 
@@ -60,13 +67,31 @@ void Game::drawScreen(){
     case MAIN_MENU:
         //Draws the play button
         buttonList[0]->draw(screenImg);
+        //Draws the instruction menu button
+        buttonList[1]->draw(screenImg);
         break;
+    case INSTRUCTION_MENU:
+        //Draws the back button
+        buttonList[2]->draw(screenImg);
+
+        //Explains the instructions
+        putText(*screenImg, "Water and fertilise your tree so \n it grows big and tall. Prune branches that you want to remove,\nand reverse your previous actions if you make a mistake or don't like how the tree has grown.",
+         Point(WINDOW_WIDTH/2-200, WINDOW_HEIGHT/2-100), FONT_HERSHEY_SIMPLEX, 1, Scalar(0, 0, 255), 2);
+
+        break;
+    case PRUNING_ACTION:
+        //Draws the cancel pruning button
+        buttonList[3]->draw(screenImg);
+
     case IN_GAME:
+        //Draws the back button
+        buttonList[2]->draw(screenImg);
+
         //Draws the action buttons
-        for(int i = 1; i < buttonList.size(); i++){
+        for(int i = 4; i < buttonList.size(); i++){
             buttonList[i]->draw(screenImg);
         }
-        
+
         //Draws the tree to the screen
         gameTree->draw(screenImg);
         break;

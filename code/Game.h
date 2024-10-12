@@ -11,6 +11,7 @@ using namespace cv;
 
 enum GameState{
     MAIN_MENU,
+    INSTRUCTION_MENU,
     IN_GAME,
     PRUNING_ACTION
 };

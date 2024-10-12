@@ -51,6 +51,8 @@ class Branch : public Printable{
 
         void draw(Mat* img);
 
+        bool containsMouse(int mouseX, int mouseY);
+
         void printData();
 
     private:

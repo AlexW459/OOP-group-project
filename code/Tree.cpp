@@ -306,6 +306,15 @@ void Tree::draw(Mat* img){
 
 }
 
+int Tree::getClickedIndex(int mouseX, int mouseY) {
+    for(int i = 0; i < branchList.size(); i++){
+        if(branchList[i]->containsMouse(mouseX, mouseY)){
+            return branchList[i]->getIndex();
+        }
+    }
+    return -1;
+}
+
 void Tree::printData(){
     cout << "Tree object" << endl;
     cout << "Water level: " << waterLevel;

@@ -48,6 +48,7 @@ class Tree : public Printable{
 
         void draw(Mat* img);
 
+        int getClickedIndex(int mouseX, int mouseY);
 
         void printData();
     private:

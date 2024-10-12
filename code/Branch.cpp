@@ -130,8 +130,38 @@ void Branch::draw(Mat* img){
     //Draws the branch to the image;
     fillConvexPoly(*img, vertices, CV_RGB(148, 72, 21));
 
-    
 
+}
+
+bool Branch::containsMouse(int mouseX, int mouseY){
+    //Rotates point around centre of branch
+    int newX = mouseX - branchRect.center.x;
+    int newY = mouseY - branchRect.center.y;
+
+    //Gets sin and cos of the angle
+    float angleSin = sin(branchRect.angle*M_PI/180);
+    float angleCos = cos(branchRect.angle*M_PI/180);
+
+    //Rotates point
+    int rotatedX = newX*angleCos - newY*angleSin;
+    int rotatedY = newX*angleSin - newY*angleCos;
+
+    //Moves the point back to its previous position
+    rotatedX += branchRect.center.x;
+    rotatedY += branchRect.center.y;
+
+    Point2f rectanglePoints[4];
+
+    //Gets a non-rotated copy of the rectangle
+    RotatedRect unrotatedRect = branchRect;
+    unrotatedRect.angle = 0;
+    unrotatedRect.points(rectanglePoints);
+
+    //Creates unrotated rectangle with the same dimensions as the branch rectangle
+    Rect newRect(rectanglePoints[1], rectanglePoints[3]);
+
+    //Finds whether the rotated point is in the unrotated rectangle
+    return newRect.contains(Point(rotatedX, rotatedY));
 }
 
 void Branch::printData(){
@@ -150,4 +180,4 @@ void Branch::printData(){
         cout << "Rectangle's y position: " << branchRect.center.y << endl;
         cout << "Rectangle's angle position: " << branchRect.angle << endl;
         cout << "Number of times the branch has been allowed to grow: " << age << endl;
-    }
+}
