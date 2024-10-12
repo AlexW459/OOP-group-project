@@ -12,7 +12,7 @@ class Clickable {
 public:
 
     //pass though the features needed for clickable class
-    Clickable(Rect rect, int id) : rect_(rect), id_(id), clicked_(false) {}
+    Clickable(Rect rect, int id, string text) : rect_(rect), id_(id), clicked_(false), buttonText_(text) {}
 
     //is the cursor over the clickable area
     bool contains(Point2f pt) const { return rect_.contains(pt); }
@@ -27,9 +27,9 @@ public:
     int getId() const { return id_; }
 
     // draws a scalar box around the clickable area as a rectangle 
-    void draw(Mat& img, const Scalar& color = Scalar(0, 255, 0), int thickness = 2) const {
-        rectangle(img, rect_, color, thickness);
-        putText(img, to_string(id_), Point(rect_.x + 5, rect_.y + 20), FONT_HERSHEY_SIMPLEX, 0.5, color, thickness);
+    void draw(Mat* img, const Scalar& color = Scalar(0, 0, 255), int thickness = 2) const {
+        rectangle(*img, rect_, color, thickness);
+        putText(*img, buttonText_, Point(rect_.x + 5, rect_.y + 32), FONT_HERSHEY_SIMPLEX, 1, color, thickness);
     }
 
     // callback for getting a click
@@ -43,6 +43,8 @@ private:
     int id_;
 
     bool clicked_;
+
+    string buttonText_;
 
     function<void(int)> callback_;
 };

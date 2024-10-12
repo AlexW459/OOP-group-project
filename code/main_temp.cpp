@@ -17,15 +17,12 @@ using namespace std;
 
 // window interface
 int main(void) {
-    //Create instance of game class
-    Game game(500, 800);
 
-    while(game.isRunning()){
-        
-    }
+    Game game = Game(800, 500);
 
+    game.drawScreen();
 
-
+    waitKey(0.3);
 
     return 0;
 }

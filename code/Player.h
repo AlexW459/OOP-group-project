@@ -1,28 +1,32 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include <iostream>
+#include "Printable.h"
 
-class Player {
+using namespace std;
+
+class Player : Printable{
 private:
     float waterSupply;       // Amount of water the player has
-    float fertilizerSupply;  // Amount of fertilizer the player has
+    float fertiliserSupply;  // Amount of fertilizer the player has
 
 public:
     // Constructor
-    Player(int water, int fertilizer);
+    Player(float water, float fertilizer);
 
     // Methods for using resources
-    bool useWater(int amount);
-    bool useFertilizer(int amount);
+    bool useWater(float amount);
+    bool useFertiliser(float amount);
 
     // New methods for adding resources
-    void addWater(int amount);
-    void addFertilizer(int amount);
+    void addWater(float amount);
+    void addFertiliser(float amount);
 
     // Getters for current supplies
-    int getWaterSupply();
-    int getFertilizerSupply();
+    float getWaterSupply();
+    float getFertiliserSupply();
+
+    void printData();
 };
 
 #endif

@@ -1,6 +1,7 @@
 #ifndef PRUNING_ACTION_H
 #define PRUNING_ACTION_H
 
+#include "Printable.h"
 #include "Action.h"
 #include "Tree.h"
 

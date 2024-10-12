@@ -1,11 +1,12 @@
 #ifndef WATERING_ACTION_H
 #define WATERING_ACTION_H
 
+#include "Printable.h"
 #include "Action.h"
 #include "Tree.h"
 #include "Player.h"
 
-class WateringAction : public Action : public Printable{
+class WateringAction : public Action, public Printable{
 public:
     WateringAction(Player* currentPlayer, Tree* currentTree, float litresToAdd);
 

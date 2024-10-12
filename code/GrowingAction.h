@@ -1,11 +1,12 @@
 #ifndef GROWING_ACTION_H
 #define GROWING_ACTION_H
 
+#include "Printable.h"
 #include "Action.h"
 #include "Tree.h"
 #include "Player.h"
 
-class GrowingAction : public Action : public Printable{
+class GrowingAction : public Action, public Printable{
     public:
         GrowingAction(Tree* currentTree);
 

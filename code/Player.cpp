@@ -1,10 +1,10 @@
 #include "Player.h"
 
 // Constructor to initialize water and fertilizer supplies
-Player::Player(int water, int fertilizer) : waterSupply(water), fertilizerSupply(fertilizer) {}
+Player::Player(float water, float fertiliser) : waterSupply(water), fertiliserSupply(fertiliser) {}
 
 // Method to use water, returns true if successful
-bool Player::useWater(int amount) {
+bool Player::useWater(float amount) {
     if (waterSupply >= amount) {
         waterSupply -= amount;
         std::cout << "Used " << amount << " units of water. Remaining water: " << waterSupply << std::endl;
@@ -16,10 +16,10 @@ bool Player::useWater(int amount) {
 }
 
 // Method to use fertilizer, returns true if successful
-bool Player::useFertilizer(int amount) {
-    if (fertilizerSupply >= amount) {
-        fertilizerSupply -= amount;
-        std::cout << "Used " << amount << " units of fertilizer. Remaining fertilizer: " << fertilizerSupply << std::endl;
+bool Player::useFertiliser(float amount) {
+    if (fertiliserSupply >= amount) {
+        fertiliserSupply -= amount;
+        std::cout << "Used " << amount << " units of fertilizer. Remaining fertilizer: " << fertiliserSupply << std::endl;
         return true;
     } else {
         std::cout << "Not enough fertilizer." << std::endl;
@@ -28,25 +28,31 @@ bool Player::useFertilizer(int amount) {
 }
 
 // Method to add water to the player's supply
-void Player::addWater(int amount) {
+void Player::addWater(float amount) {
     waterSupply += amount;
     std::cout << "Added " << amount << " units of water. Total water: " << waterSupply << std::endl;
 }
 
 // Method to add fertilizer to the player's supply
-void Player::addFertilizer(int amount) {
-    fertilizerSupply += amount;
-    std::cout << "Added " << amount << " units of fertilizer. Total fertilizer: " << fertilizerSupply << std::endl;
+void Player::addFertiliser(float amount) {
+    fertiliserSupply += amount;
+    std::cout << "Added " << amount << " units of fertilizer. Total fertilizer: " << fertiliserSupply << std::endl;
 }
 
 // Get current water supply
-int Player::getWaterSupply() {
+float Player::getWaterSupply() {
     return waterSupply;
 }
 
 // Get current fertilizer supply
-int Player::getFertilizerSupply() {
-    return fertilizerSupply;
+float  Player::getFertiliserSupply() {
+    return fertiliserSupply;
+}
+
+void Player::printData(){
+    cout << "Player object" << endl;
+    cout << "Fertiliser supplies: " << fertiliserSupply << endl;
+    cout << "Water supplies: " << waterSupply << endl;
 }
 
 

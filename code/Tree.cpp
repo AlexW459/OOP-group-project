@@ -306,3 +306,11 @@ void Tree::draw(Mat* img){
 
 }
 
+void Tree::printData(){
+    cout << "Tree object" << endl;
+    cout << "Water level: " << waterLevel;
+    cout << "Fertiliser level: " << nutrientLevel;
+    cout << "Max water capacity: " << maxWater;
+    cout << "Max nutrient capacity: " << maxNutrients;
+    cout << "Max branch index: " << maxIndex;
+}

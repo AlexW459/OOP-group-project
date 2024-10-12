@@ -144,10 +144,10 @@ void Branch::printData(){
         } 
         cout << endl;
         cout << "Index of the branch's parent: " << parentIndex << endl;
-        cout << "Rectangle's heigh: " << branchRect.height << endl;
-        cout << "Rectangle's width: " << branchRect.width <<endl;
-        cout << "Rectangle's x position: " << branchRect.x << endl;
-        cout << "Rectangle's y position: " << branchRect.y << endl;
+        cout << "Rectangle's heigh: " << branchRect.size.height << endl;
+        cout << "Rectangle's width: " << branchRect.size.width <<endl;
+        cout << "Rectangle's x position: " << branchRect.center.x << endl;
+        cout << "Rectangle's y position: " << branchRect.center.y << endl;
         cout << "Rectangle's angle position: " << branchRect.angle << endl;
         cout << "Number of times the branch has been allowed to grow: " << age << endl;
     }

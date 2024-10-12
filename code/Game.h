@@ -1,8 +1,9 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "Tree.h"
+#include "Printable.h"
 #include "Timeline.h"
+#include "Tree.h"
 #include "Clickable.h"
 #include "Player.h"
 
@@ -12,7 +13,7 @@ enum GameState{
     PRUNING_ACTION
 };
 
-class Game {
+class Game : Printable{
     public:
         Game(int windowWidth, int windowHeight);
 
@@ -21,6 +22,8 @@ class Game {
         void mouseClicked();
 
         void drawScreen();
+
+        void printData();
 
         bool isRunning();
 
