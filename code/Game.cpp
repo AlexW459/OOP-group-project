@@ -56,17 +56,20 @@ Game::~Game(){
 
 void Game::drawScreen(){
 
-    if(currentState == MAIN_MENU){
+    switch(currentState) {
+    case MAIN_MENU:
         //Draws the play button
         buttonList[0]->draw(screenImg);
-    }else{
+        break;
+    case IN_GAME:
         //Draws the action buttons
         for(int i = 1; i < buttonList.size(); i++){
             buttonList[i]->draw(screenImg);
         }
+        
         //Draws the tree to the screen
         gameTree->draw(screenImg);
-
+        break;
     }
 
     imshow("Display window", *screenImg);

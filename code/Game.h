@@ -7,6 +7,8 @@
 #include "Clickable.h"
 #include "Player.h"
 
+using namespace cv;
+
 enum GameState{
     MAIN_MENU,
     IN_GAME,
