@@ -1,6 +1,6 @@
 #include "Game.h"
 
-Game::Game(int windowWidth, int windowHeight) : gameRunning(true), currentState(IN_GAME){
+Game::Game(int windowWidth, int windowHeight) : gameRunning(true), currentState(MAIN_MENU){
     WINDOW_WIDTH = windowWidth;
     WINDOW_HEIGHT = windowHeight;
     
@@ -47,13 +47,12 @@ Game::Game(int windowWidth, int windowHeight) : gameRunning(true), currentState(
     buttonList.push_back(new Clickable(reverseActionRect, 9, "Reverse action"));
 
 
+        gameTimeline->performAction(new GrowingAction(gameTree));
 
-    gameTimeline->performAction(new GrowingAction(gameTree));
+        gameTimeline->performAction(new GrowingAction(gameTree));
 
-    gameTimeline->performAction(new GrowingAction(gameTree));
+        gameTimeline->reverseAction();
 
-
-    gameTimeline->reverseAction();
 
 }
 
