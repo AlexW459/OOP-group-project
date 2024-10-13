@@ -226,7 +226,6 @@ void Tree::removeBranches(vector<int> branchIndices){
 
         //Removes the branch itself
         branchList.erase(branchList.begin()+findBranch(branchIndices[i]));
-
     }
 
     //Updates the max water and nutrients of the tree
@@ -244,8 +243,11 @@ void Tree::modifyBranches(vector<float> widthIncreases, vector<float> lengthIncr
     //Loops through each of the branches in the tree
     for(int i = 0; i < branchList.size(); i++){
         //Adjusts branch size
-        branchList[i]->modifySize(-widthIncreases[i], -1*lengthIncreases[i]);
+        branchList[i]->modifySize(-widthIncreases[i], -lengthIncreases[i]);
+    }
 
+    //Adjusts positions of branches in accordance with their new sizes
+    for(int i = 0; i < branchList.size(); i++){
         //Moves child branches to account for the change in size of their parent
 
         //Gets children of current branch
@@ -261,8 +263,8 @@ void Tree::modifyBranches(vector<float> widthIncreases, vector<float> lengthIncr
             //Adjusts position of branches
             branchList[findBranch(childIndices[i])]->setPos(newTipX, newTipY);
         }
-
     }
+
 
     //Updates the max water and nutrients of the tree
     updateMaxConstraints();

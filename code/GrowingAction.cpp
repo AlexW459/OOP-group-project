@@ -1,11 +1,16 @@
 #include "GrowingAction.h"
 
-GrowingAction::GrowingAction(Tree* currentTree) : treeToModify(currentTree) {};
+GrowingAction::GrowingAction(Player* currentPlayer, Tree* currentTree) : treeToModify(currentTree), playerToModify(currentPlayer) {};
 
-void GrowingAction::performAction() {
+bool GrowingAction::performAction() {
     //Grows the tree and stores the changes in the corrresponding variables
     treeToModify->grow(waterConsumed, nutrientsConsumed, 
     branchWidthIncreases, branchLengthIncreases, newBranchIndices);
+
+    playerToModify->addFertiliser(1);
+    playerToModify->addWater(2);
+
+    return true;
 };
 
 void GrowingAction::reverseAction() {

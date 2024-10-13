@@ -4,10 +4,11 @@
 FertilisingAction::FertilisingAction(Player* currentPlayer, Tree* currentTree, float kilogramsToAdd) :
     WateringAction(currentPlayer, currentTree, kilogramsToAdd), nutrientsAdded(kilogramsToAdd){};
 
-void FertilisingAction::performAction(){
-    nutrientsAbsorbed = treeToModify->addNutrients(nutrientsAdded);;
-    //Adds accompanying water to the tree
-    WateringAction::performAction();
+bool FertilisingAction::performAction(){
+    if(playerToModify->useFertiliser(nutrientsAdded) && WateringAction::performAction()){
+        nutrientsAbsorbed = treeToModify->addNutrients(nutrientsAdded);;
+    }
+    return true;
 };
 
 void FertilisingAction::reverseAction(){

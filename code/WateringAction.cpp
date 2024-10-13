@@ -3,9 +3,15 @@
 WateringAction::WateringAction(Player* currentPlayer, Tree* currentTree, float litresToAdd) :
     waterAdded(litresToAdd), waterAbsorbed(0), playerToModify(currentPlayer), treeToModify(currentTree) {};
 
-void WateringAction::performAction() {
-    waterAbsorbed = treeToModify->addWater(waterAdded);
-    playerToModify->useWater(waterAdded);
+bool WateringAction::performAction() {
+    if(playerToModify->useWater(waterAdded)){
+        waterAbsorbed = treeToModify->addWater(waterAdded);
+        return true;
+    }else{
+        waterAbsorbed = 0;
+        waterAdded = 0;
+        return false;
+    }
 }
 
 void WateringAction::reverseAction() {

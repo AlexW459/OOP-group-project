@@ -2,8 +2,10 @@
 
 PruningAction::PruningAction(Tree* currentTree, int branchIndex) : index(branchIndex), treeToModify(currentTree) {};
 
-void PruningAction::performAction(){
+bool PruningAction::performAction(){
     treeToModify->pruneBranch(index, branchesRemoved);
+
+    return true;
 }
 
 void PruningAction::reverseAction(){

@@ -10,7 +10,7 @@ class FertilisingAction : public WateringAction {
 public:
     FertilisingAction(Player* currentPlayer, Tree* currentTree, float litresToAdd);
     
-    void performAction();
+    bool performAction();
     void reverseAction();
     void printData();
 

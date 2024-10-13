@@ -8,14 +8,15 @@
 
 class GrowingAction : public Action, public Printable{
     public:
-        GrowingAction(Tree* currentTree);
+        GrowingAction(Player* currentPlayer, Tree* currentTree);
 
-        void performAction();
+        bool performAction();
         void reverseAction();
         void printData();
 
     private:
         Tree* treeToModify;
+        Player* playerToModify;
 
         float waterConsumed;
         float nutrientsConsumed;

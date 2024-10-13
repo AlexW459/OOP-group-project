@@ -4,7 +4,7 @@
 
 class Action {
     public:
-        virtual void performAction() = 0;
+        virtual bool performAction() = 0;
         virtual void reverseAction() = 0;
 };
 

@@ -7,6 +7,9 @@
 #include "Clickable.h"
 #include "Player.h"
 #include "GrowingAction.h"
+#include "WateringAction.h"
+#include "FertilisingAction.h"
+#include "PruningAction.h"
 
 using namespace cv;
 
@@ -23,13 +26,20 @@ class Game : Printable{
 
         ~Game();
 
-        void mouseClicked();
+        void handleInputs();
 
         void drawScreen();
 
         void printData();
 
         bool isRunning();
+
+        static void handleMouseClick(int event, int mouseX, int mouseY, int , void*);
+
+        static int mouseXPos;
+        static int mouseYPos;
+        static bool mouseClicked;
+
 
     private:
         Mat* screenImg;
@@ -48,6 +58,8 @@ class Game : Printable{
         GameState currentState;
 
 };
+
+
 
 
 #endif

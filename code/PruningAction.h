@@ -9,7 +9,7 @@ class PruningAction : public Action{
     public:
         PruningAction(Tree* currentTree, int branchIndex);
 
-        void performAction();
+        bool performAction();
         void reverseAction();
 
         void printData();

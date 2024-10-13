@@ -1,9 +1,15 @@
 #include "Game.h"
 
+//Sets static variables
+int Game::mouseXPos = 0;
+int Game::mouseYPos = 0;
+bool Game::mouseClicked = false;
+
 Game::Game(int windowWidth, int windowHeight) : gameRunning(true), currentState(MAIN_MENU){
     WINDOW_WIDTH = windowWidth;
     WINDOW_HEIGHT = windowHeight;
-    
+
+
     gamePlayer = new Player(10, 5);
 
     //Creates tree with a default supply of 10L of water and 10kg of nutrients
@@ -46,13 +52,10 @@ Game::Game(int windowWidth, int windowHeight) : gameRunning(true), currentState(
     Rect reverseActionRect(WINDOW_WIDTH-buttonWidth, 400, buttonWidth, 100);
     buttonList.push_back(new Clickable(reverseActionRect, 9, "Reverse action"));
 
+    namedWindow("Time Travel Tree", 0);
 
-        gameTimeline->performAction(new GrowingAction(gameTree));
-
-        gameTimeline->performAction(new GrowingAction(gameTree));
-
-        gameTimeline->reverseAction();
-
+    //Sets the mouse callback function
+    setMouseCallback("Time Travel Tree", Game::handleMouseClick);
 
 }
 
@@ -87,9 +90,14 @@ void Game::drawScreen(){
         buttonList[2]->draw(screenImg);
 
         //Explains the instructions
-        putText(*screenImg, "Water and fertilise your tree so \n it grows big and tall. Prune branches that you want to remove,\nand reverse your previous actions if you make a mistake or don't like how the tree has grown.",
-         Point(WINDOW_WIDTH/2-200, WINDOW_HEIGHT/2-100), FONT_HERSHEY_SIMPLEX, 1, Scalar(0, 0, 255), 2);
-
+        putText(*screenImg, "Water and fertilise your tree so it grows", Point(WINDOW_WIDTH/2-300, 150), FONT_HERSHEY_SIMPLEX, 1, Scalar(0, 0, 0), 2);
+        putText(*screenImg, "big and tall. Prune branches that you", Point(WINDOW_WIDTH/2-300, 200), FONT_HERSHEY_SIMPLEX, 1, Scalar(0, 0, 0), 2);
+        putText(*screenImg, "want to remove and reverse your previous", Point(WINDOW_WIDTH/2-300, 250), FONT_HERSHEY_SIMPLEX, 1, Scalar(0, 0, 0), 2);
+        putText(*screenImg, "actions if you make a mistake or don't", Point(WINDOW_WIDTH/2-300, 300), FONT_HERSHEY_SIMPLEX, 1, Scalar(0, 0, 0), 2);
+        putText(*screenImg, "like how the tree has grown. You get 2L", Point(WINDOW_WIDTH/2-300, 350), FONT_HERSHEY_SIMPLEX, 1, Scalar(0, 0, 0), 2);
+        putText(*screenImg, "water and 1kg fertiliser free every time", Point(WINDOW_WIDTH/2-300, 400), FONT_HERSHEY_SIMPLEX, 1, Scalar(0, 0, 0), 2);
+        putText(*screenImg, "you let your tree grow. Press ESC to quit", Point(WINDOW_WIDTH/2-300, 450), FONT_HERSHEY_SIMPLEX, 1, Scalar(0, 0, 0), 2);
+         
         break;
     case PRUNING_ACTION:
         //Draws the cancel pruning button
@@ -104,14 +112,104 @@ void Game::drawScreen(){
             buttonList[i]->draw(screenImg);
         }
 
-
         //Draws the tree to the screen
         gameTree->draw(screenImg);
 
         break;
     }
 
-    cv::imshow("Display window", *screenImg);
+    cv::imshow("Time Travel Tree", *screenImg);
+}
+
+void Game::handleMouseClick(int event, int mouseX, int mouseY, int , void*){
+    //Checks that the mouse was clicked
+    if(event == EVENT_LBUTTONDOWN){
+        //Sets variables appropriately
+        Game::mouseXPos = mouseX;
+        Game::mouseYPos = mouseY;
+        Game::mouseClicked = true;
+
+    }
+}
+
+void Game::handleInputs(){
+    //Checks that the mouse has been clicked
+    if(Game::mouseClicked){
+        Game::mouseClicked = false;
+    }else{
+        return;
+    }
+
+    //Checks if any buttons are being pressed
+    Point mousePos(Game::mouseXPos, Game::mouseYPos);
+    switch(currentState) {
+    case MAIN_MENU:
+        //Checks if the play button has been pressed
+        if(buttonList[0]->contains(mousePos)){
+            currentState = IN_GAME;
+        }else if(buttonList[1]->contains(mousePos)){
+            currentState = INSTRUCTION_MENU;
+        }
+        
+
+    break;
+    case INSTRUCTION_MENU:
+        if(buttonList[2]->contains(mousePos)){
+            currentState = MAIN_MENU;
+        }
+
+    break;
+    case PRUNING_ACTION:
+        if(buttonList[3]->contains(mousePos)){
+            currentState = IN_GAME;
+        }
+        else if(int prunedIndex = gameTree->getClickedIndex(mousePos.x, mousePos.y) != -1){
+            gameTimeline->performAction(new PruningAction(gameTree, prunedIndex));
+
+            currentState = IN_GAME;
+        }
+
+    break;
+    case IN_GAME:
+        if(buttonList[2]->contains(mousePos)){
+            currentState = MAIN_MENU;
+        }
+
+        //Checks if any of the actions are taken
+        //Add water button pressed
+        if(buttonList[4]->contains(mousePos)){
+            float waterAmount;
+
+            cout << "Enter the amount of water you want to add to the tree" << endl;
+            cin >> waterAmount;
+
+            gameTimeline->performAction(new WateringAction(gamePlayer, gameTree, waterAmount));
+        //Add fertiliser button pressed
+        }else if (buttonList[5]->contains(mousePos)){
+            float fertiliserAmount;
+
+            cout << "Enter the amount of fertiliser you want to add to the tree" << endl;
+            cin >> fertiliserAmount;
+
+            gameTimeline->performAction(new FertilisingAction(gamePlayer, gameTree, fertiliserAmount));
+        //Prune branch button pressed
+        }else if (buttonList[6]->contains(mousePos)){
+            currentState = PRUNING_ACTION;
+        //Grow button pressed
+        }else if (buttonList[7]->contains(mousePos)){
+            gameTimeline->performAction(new GrowingAction(gamePlayer, gameTree));
+        }
+        //Reverse action button pressed
+        else if(buttonList[8]->contains(mousePos)){
+            gameTimeline->reverseAction();
+        }
+
+
+    break;
+
+    }
+
+
 }
 
 

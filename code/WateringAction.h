@@ -10,7 +10,7 @@ class WateringAction : public Action, public Printable{
 public:
     WateringAction(Player* currentPlayer, Tree* currentTree, float litresToAdd);
 
-    virtual void performAction();
+    virtual bool performAction();
     virtual void reverseAction();
     virtual void printData();
 
