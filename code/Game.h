@@ -6,6 +6,7 @@
 #include "Tree.h"
 #include "Clickable.h"
 #include "Player.h"
+#include "GrowingAction.h"
 
 using namespace cv;
 

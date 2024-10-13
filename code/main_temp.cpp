@@ -20,7 +20,10 @@ int main(void) {
 
     Game game = Game(800, 500);
 
+
     game.drawScreen();
+
+
 
     while(pollKey() != 27){};
 

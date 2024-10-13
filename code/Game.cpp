@@ -1,6 +1,6 @@
 #include "Game.h"
 
-Game::Game(int windowWidth, int windowHeight) : gameRunning(true), currentState(MAIN_MENU){
+Game::Game(int windowWidth, int windowHeight) : gameRunning(true), currentState(IN_GAME){
     WINDOW_WIDTH = windowWidth;
     WINDOW_HEIGHT = windowHeight;
     
@@ -16,6 +16,7 @@ Game::Game(int windowWidth, int windowHeight) : gameRunning(true), currentState(
     //Creates the timeline
     gameTimeline = new Timeline();
 
+    int buttonWidth = 250;
 
     //Creates on-screen buttons
     Rect mainMenuButtonRect(WINDOW_WIDTH/2-100, WINDOW_HEIGHT/2-50, 200, 100);
@@ -30,20 +31,29 @@ Game::Game(int windowWidth, int windowHeight) : gameRunning(true), currentState(
     Rect cancelPruningRect(10, WINDOW_HEIGHT-110, 200, 100);
     buttonList.push_back(new Clickable(cancelPruningRect, 4, "Cancel"));
 
-    Rect waterTreeButtonRect(WINDOW_WIDTH-100, 0, 200, 100);
-    buttonList.push_back(new Clickable(mainMenuButtonRect, 5, "Water tree"));
+    Rect waterTreeButtonRect(WINDOW_WIDTH-buttonWidth, 0, buttonWidth, 100);
+    buttonList.push_back(new Clickable(waterTreeButtonRect, 5, "Water tree"));
 
-    Rect fertiliseTreeRect(WINDOW_WIDTH-100, 100, 200, 100);
+    Rect fertiliseTreeRect(WINDOW_WIDTH-buttonWidth, 100, buttonWidth, 100);
     buttonList.push_back(new Clickable(fertiliseTreeRect, 6, "Fertilise tree"));
 
-    Rect pruneBranchRect(WINDOW_WIDTH-100, 200, 200, 100);
+    Rect pruneBranchRect(WINDOW_WIDTH-buttonWidth, 200, buttonWidth, 100);
     buttonList.push_back(new Clickable(pruneBranchRect, 7, "Prune branch"));
 
-    Rect growTreeRect(WINDOW_WIDTH-100, 300, 200, 100);
+    Rect growTreeRect(WINDOW_WIDTH-buttonWidth, 300, buttonWidth, 100);
     buttonList.push_back(new Clickable(growTreeRect, 8, "Grow tree"));
 
-    Rect reverseActionRect(WINDOW_WIDTH-100, 400, 200, 100);
+    Rect reverseActionRect(WINDOW_WIDTH-buttonWidth, 400, buttonWidth, 100);
     buttonList.push_back(new Clickable(reverseActionRect, 9, "Reverse action"));
+
+
+
+    gameTimeline->performAction(new GrowingAction(gameTree));
+
+    gameTimeline->performAction(new GrowingAction(gameTree));
+
+
+    gameTimeline->reverseAction();
 
 }
 
@@ -62,6 +72,9 @@ Game::~Game(){
 }
 
 void Game::drawScreen(){
+    //Clears what was previously on the screen
+    *screenImg = CV_RGB(150, 150, 255);
+
 
     switch(currentState) {
     case MAIN_MENU:
@@ -92,12 +105,14 @@ void Game::drawScreen(){
             buttonList[i]->draw(screenImg);
         }
 
+
         //Draws the tree to the screen
         gameTree->draw(screenImg);
+
         break;
     }
 
-    imshow("Display window", *screenImg);
+    cv::imshow("Display window", *screenImg);
 }
 
 

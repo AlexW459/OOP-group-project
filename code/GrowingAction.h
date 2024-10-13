@@ -12,7 +12,7 @@ class GrowingAction : public Action, public Printable{
 
         void performAction();
         void reverseAction();
-        void printdata();
+        void printData();
 
     private:
         Tree* treeToModify;
