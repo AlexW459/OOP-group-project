@@ -18,7 +18,7 @@ int main() {
     player.printData();  // Should show 50 water, 30 fertilizer
 
     // Test using water (successful case)
-    std::cout << "\nTest: Using 20 units of water." << std::endl;
+    std::cout << "Test: Using 20 units of water." << std::endl;
     if (player.useWater(20.0)) {
         std::cout << "Water usage successful." << std::endl;
     } else {
@@ -26,12 +26,12 @@ int main() {
     }
 
     // Test adding water
-    std::cout << "\nTest: Adding 30 units of water." << std::endl;
+    std::cout << "Test: Adding 30 units of water." << std::endl;
     player.addWater(30.0);
     player.printData();  // Should show updated water supply
 
     // Test using fertilizer (successful case)
-    std::cout << "\nTest: Using 10 units of fertilizer." << std::endl;
+    std::cout << "Test: Using 10 units of fertilizer." << std::endl;
     if (player.useFertiliser(10.0)) {
         std::cout << "Fertilizer usage successful." << std::endl;
     } else {
@@ -39,7 +39,7 @@ int main() {
     }
 
     // Test adding fertilizer
-    std::cout << "\nTest: Adding 15 units of fertilizer." << std::endl;
+    std::cout << "Test: Adding 15 units of fertilizer." << std::endl;
     player.addFertiliser(15.0);
     player.printData();  // Should show updated fertilizer supply
 
@@ -105,5 +105,39 @@ int main() {
 
     // Print the timeline (should be empty now)
     timeline.printData();
+
+
+    //Test using Tree
+    // Create a trunk branch for the tree
+    Branch* trunk = new Branch(0, -1, 45, 100, 20, 50, 50);
+    Tree tree(10, 5, trunk);
+    
+    // Test adding water
+    float waterAdded = tree.addWater(5.0f);
+    std::cout << "Water added: " << waterAdded << std::endl;
+    tree.printData();
+
+    // Test adding nutrients
+    float nutrientsAdded = tree.addNutrients(3.0f);
+    std::cout << "Nutrients added: " << nutrientsAdded << std::endl;
+    tree.printData();
+
+    // Test growth
+    float waterConsumed = 0, nutrientsConsumed = 0;
+    std::vector<float> widthIncreases, lengthIncreases;
+    std::vector<int> branchesGrown;
+    tree.grow(waterConsumed, nutrientsConsumed, widthIncreases, lengthIncreases, branchesGrown);
+    std::cout << "Water consumed during growth: " << waterConsumed << std::endl;
+    std::cout << "Nutrients consumed during growth: " << nutrientsConsumed << std::endl;
+    tree.printData();
+
+    // Test branch pruning
+    std::vector<Branch*> removedBranches;
+    tree.pruneBranch(0, removedBranches); // Prune the trunk
+    std::cout << "Pruned branches: " << removedBranches.size() << std::endl;
+    tree.printData();
+
+    // Clean up
+    delete trunk;
 }
 
