@@ -129,6 +129,7 @@ void Game::handleMouseClick(int event, int mouseX, int mouseY, int , void*){
         Game::mouseYPos = mouseY;
         Game::mouseClicked = true;
 
+
     }
 }
 

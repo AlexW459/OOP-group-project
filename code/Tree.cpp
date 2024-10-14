@@ -131,11 +131,6 @@ void Tree::grow(float &waterConsumed, float &nutrientsConsumed,
         float newTipY;
         branchList[branchIndex]->getTipPos(newTipX, newTipY);
 
-        //Loops through all of the children
-        for(int childIndex = 0; childIndex < childIndices.size(); childIndex++){
-            //Adjusts position of branches
-            branchList[findBranch(childIndices[childIndex])]->setPos(newTipX, newTipY);
-        }
 
         //Adds a new branch if the tree has the required nutrients and water
         if(min(nutrientLevel, waterLevel) > NEW_BRANCH_REQUIREMENT && 
@@ -147,7 +142,7 @@ void Tree::grow(float &waterConsumed, float &nutrientsConsumed,
 
             //Generates a random number between -70 and 70
             float newAngle = 140*((float)(rand()) /RAND_MAX-0.5);
-            Branch* newBranch = new Branch(maxIndex, branchIndex, newAngle, 50, 10, newTipX, newTipY);
+            Branch* newBranch = new Branch(maxIndex, branchList[branchIndex]->getIndex(), newAngle, 50, 10, newTipX, newTipY);
             branchList.push_back(newBranch);
 
             //Adds the new branch index to the list of new branches grown
@@ -155,12 +150,14 @@ void Tree::grow(float &waterConsumed, float &nutrientsConsumed,
            
             branchList[branchIndex]->addChild(maxIndex);
             
-
             //Increments the highest index
             maxIndex++;
         }
 
     }
+
+    //Updates positions of branches
+    updateBranchPos();
 
     //Updates the max water and nutrients of the tree
     updateMaxConstraints();
@@ -195,6 +192,7 @@ void Tree::pruneBranch(int branchIndex, vector<Branch*> &removedBranches) {
             newChildrenOfChildren.insert(newChildrenOfChildren.end(), newestChildren.begin(), newestChildren.end());
             //Adds children onto array containing all children
             childIndices.insert(childIndices.end(), newestChildren.begin(), newestChildren.end());
+
 
         }
 
@@ -247,23 +245,7 @@ void Tree::modifyBranches(vector<float> widthIncreases, vector<float> lengthIncr
     }
 
     //Adjusts positions of branches in accordance with their new sizes
-    for(int i = 0; i < branchList.size(); i++){
-        //Moves child branches to account for the change in size of their parent
-
-        //Gets children of current branch
-        vector<int> childIndices = branchList[i]->getChildren();
-
-        //Gets new position of the tip of the current branch
-        float newTipX;
-        float newTipY;
-        branchList[i]->getTipPos(newTipX, newTipY);
-
-        //Loops through all of the children
-        for(int i = 0; i < childIndices.size(); i++){
-            //Adjusts position of branches
-            branchList[findBranch(childIndices[i])]->setPos(newTipX, newTipY);
-        }
-    }
+    updateBranchPos();
 
 
     //Updates the max water and nutrients of the tree
@@ -290,6 +272,28 @@ void Tree::updateMaxConstraints(){
     //Updates the maximum water and nutrients that can be stored in the tree
     maxWater = totalArea/50;
     maxNutrients = totalArea/50;
+}
+
+void Tree::updateBranchPos(){
+    //Adjusts positions of branches in accordance with their new sizes
+    for(int i = 0; i < branchList.size(); i++){
+        //Moves child branches to account for the change in size of their parent
+
+        //Gets children of current branch
+        vector<int> childIndices = branchList[i]->getChildren();
+
+        //Gets new position of the tip of the current branch
+        float newTipX;
+        float newTipY;
+        branchList[i]->getTipPos(newTipX, newTipY);
+
+        //Loops through all of the children
+        for(int i = 0; i < childIndices.size(); i++){
+            //Adjusts position of branches
+            branchList[findBranch(childIndices[i])]->setPos(newTipX, newTipY);
+        }
+    }
+    branchList[0]->printData();
 }
 
 void Tree::draw(Mat* img){

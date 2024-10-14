@@ -46,6 +46,9 @@ class Tree : public Printable{
         //Updates the maximum water and nutrients that the tree can store
         void updateMaxConstraints();
 
+        //Updates the positions of the branches if necessary
+        void updateBranchPos();
+
         void draw(Mat* img);
 
         int getClickedIndex(int mouseX, int mouseY);
