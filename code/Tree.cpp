@@ -293,7 +293,6 @@ void Tree::updateBranchPos(){
             branchList[findBranch(childIndices[i])]->setPos(newTipX, newTipY);
         }
     }
-    branchList[0]->printData();
 }
 
 void Tree::draw(Mat* img){
