@@ -171,20 +171,4 @@ bool Branch::containsMouse(int mouseX, int mouseY){
     return newRect.contains(Point(rotatedX, rotatedY));
 }
 
-void Branch::printData(){
-        cout << "Branch Growing" << endl;
-        cout << "Index of Branch in a tree: " << index << endl;
 
-        cout << "List of all child branches: " << endl;
-        for (int i = 0; i < childIndices.size(); i++){
-            cout << childIndices[i] << ", "; 
-        } 
-        cout << endl;
-        cout << "Index of the branch's parent: " << parentIndex << endl;
-        cout << "Rectangle's heigh: " << branchRect.size.height << endl;
-        cout << "Rectangle's width: " << branchRect.size.width <<endl;
-        cout << "Rectangle's x position: " << branchRect.center.x << endl;
-        cout << "Rectangle's y position: " << branchRect.center.y << endl;
-        cout << "Rectangle's angle position: " << branchRect.angle << endl;
-        cout << "Number of times the branch has been allowed to grow: " << age << endl;
-}
