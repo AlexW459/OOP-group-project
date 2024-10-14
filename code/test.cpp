@@ -5,6 +5,9 @@
 #include "Tree.h"
 #include "Branch.h"
 #include "Timeline.h"
+#include "GrowingAction.h"
+#include "WateringAction.h"
+#include "FertilisingAction.h"
 #include <vector>
 
 int main() {
@@ -44,7 +47,7 @@ int main() {
     player.printData();  // Should show updated fertilizer supply
 
     // Indicate end of test
-    std::cout << "Player test complete" << std::endl;
+    std::cout << "Player test complete \n" << std::endl;
 
 
 
@@ -85,26 +88,8 @@ int main() {
     std::cout << "Tip position: (" << tipX << ", " << tipY << ")" << std::endl;
 
     // Indicate end of tests
-    std::cout << "Branch test complete" << std::endl;
+    std::cout << "Branch test complete\n" << std::endl;
 
-
-
-
-    //Test using timeline
-    // Create a Timeline object
-    Timeline timeline;
-
-    // Perform the first action
-    Action* action = nullptr;  // Placeholder, testing the framework with a null action
-    timeline.performAction(action);
-    std::cout << "Performed an action successfully." << std::endl;
-
-    // Reverse the last action
-    timeline.reverseAction();
-    std::cout << "Reversed the last action successfully." << std::endl;
-
-    // Print the timeline (should be empty now)
-    timeline.printData();
 
 
     //Test using Tree
@@ -137,7 +122,148 @@ int main() {
     std::cout << "Pruned branches: " << removedBranches.size() << std::endl;
     tree.printData();
 
-    // Clean up
+    // Indicate end of tests
+    std::cout << "Tree test complete \n" << std::endl;
     delete trunk;
+
+
+
+
+    //Test using Growing action
+    // Create a trunk branch for the tree
+    Branch* trunk = new Branch(0, -1, 45, 100, 20, 50, 50); // Example parameters for trunk
+
+    // Initialize the tree with some water and nutrients
+    Tree myTree(20.0, 20.0, trunk);
+
+    // Create a player with initial water and fertilizer supplies
+    Player* myPlayer = new Player(5.0, 5.0); // Example parameters for the player
+
+    // Create a GrowingAction object
+    GrowingAction growingAction(myPlayer, &myTree);
+
+    // Print initial data
+    std::cout << "Initial Tree Data:" << std::endl;
+    myTree.printData();
+
+    // Perform the growing action
+    if (growingAction.performAction()) {
+        std::cout << "Growing action performed successfully." << std::endl;
+    } else {
+        std::cout << "Failed to perform growing action." << std::endl;
+    }
+
+    // Print data after growth
+    std::cout << "Tree Data After Growth:" << std::endl;
+    myTree.printData();
+
+    // Print data for the growing action
+    growingAction.printData();
+
+    // Reverse the growing action
+    growingAction.reverseAction();
+    std::cout << "Growing action reversed." << std::endl;
+
+    // Print data after reversing the growth
+    std::cout << "Tree Data After Reversing Growth:" << std::endl;
+    myTree.printData();
+
+    // Indicate end of tests
+    std::cout << "Growing action test complete \n" << std::endl;
+    delete trunk;
+    delete myPlayer;
+
+
+
+    //Test using Watering action and Fertilising action
+    // Create a trunk branch for the tree
+    Branch* trunk = new Branch(0, -1, 0, 50, 10, 0, 0); // Example parameters for trunk
+
+    // Initialize the tree with some water
+    Tree myTree(10.0, 20.0, trunk);  // Initial water and nutrients
+
+    // Create a player with initial water supply
+    Player* myPlayer = new Player(5.0, 0.0); // Example parameters for the player
+
+    // Print initial data
+    std::cout << "Initial Tree Data:" << std::endl;
+    myTree.printData();
+    std::cout << "Initial Player Water Supply: " << myPlayer->getWaterSupply() << std::endl;
+    std::cout << "Initial Player Fertiliser Supply: " << myPlayer->getFertiliserSupply() << std::endl;
+
+
+
+    // Define how much water to add
+    float WaterToAdd = 3.0;
+    float FertiliserToAdd = 3.0;
+
+    // Create a WateringAction object and FertilisingAction object
+    WateringAction wateringAction(myPlayer, &myTree, WaterToAdd);
+    FertilisingAction fertilisingAction(myPlayer, &myTree, FertiliserToAdd);
+
+    // Perform the watering action
+    if (wateringAction.performAction()) {
+        std::cout << "Watering action performed successfully." << std::endl;
+    } else {
+        std::cout << "Failed to perform watering action." << std::endl;
+    }
+
+    //Perform the fertilising action
+    if (fertilisingAction.performAction()) {
+        std::cout << "Fertilising action performed successfully." << std::endl;
+    } else {
+        std::cout << "Failed to perform Fertilising action." << std::endl;
+    }
+
+    // Print data after watering and fertilising
+    std::cout << "Tree Data After Watering and Fertilising:" << std::endl;
+    myTree.printData();
+    std::cout << "Player Water Supply After Watering: " << myPlayer->getWaterSupply() << std::endl;
+    std::cout << "Player Fertiliser Supply After Fertilising: " << myPlayer->getFertiliserSupply() << std::endl;
+
+    // Print data for the watering and fertilising action
+    wateringAction.printData();
+    fertilisingAction.printData();
+
+    // Reverse the watering and fertilising action
+    wateringAction.reverseAction();
+    std::cout << "Watering action reversed." << std::endl;
+
+    fertilisingAction.reverseAction();
+    std::cout << "Fertilising action reversed." << std::endl;    
+
+    // Print data after reversing the watering
+    std::cout << "Tree Data After Reversing Watering and Fertilising:" << std::endl;
+    myTree.printData();
+    std::cout << "Player Water Supply After Reversing Watering: " << myPlayer->getWaterSupply() << std::endl;
+    std::cout << "Player Fertiliser Supply After Reversing fertilising: " << myPlayer->getFertiliserSupply() << std::endl;
+
+    delete trunk;
+    delete myPlayer;
+
+
+
+
+    //Test using timeline
+    // Create a Timeline object
+    Timeline timeline;
+
+    // Perform the first action
+    Action* action = nullptr;  // Placeholder, testing the framework with a null action
+    timeline.performAction(action);
+    std::cout << "Performed an action successfully." << std::endl;
+
+    // Reverse the last action
+    timeline.reverseAction();
+    std::cout << "Reversed the last action successfully." << std::endl;
+
+    // Print the timeline (should be empty now)
+    timeline.printData();
+
+    // Indicate end of tests
+    std::cout << "Timeline test complete \n" << std::endl;
+    
+
+    return 0;
 }
 
