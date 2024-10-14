@@ -32,8 +32,6 @@ class Game : Printable{
 
         void printData();
 
-        bool isRunning();
-
         static void handleMouseClick(int event, int mouseX, int mouseY, int , void*);
 
         static int mouseXPos;
@@ -52,8 +50,6 @@ class Game : Printable{
 
         int WINDOW_WIDTH;
         int WINDOW_HEIGHT;
-
-        bool gameRunning;
 
         GameState currentState;
 

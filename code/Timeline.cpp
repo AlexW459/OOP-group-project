@@ -17,12 +17,16 @@ void Timeline::performAction(Action* actionToPerform){
 }
 
 void Timeline::reverseAction(){
-    //Reverses the last action that was taken
-    listOfActions.back()->reverseAction();
-    //Deallocates the memory
-    delete listOfActions.back();
-    //Deletes the pointer from the vector
-    listOfActions.pop_back();
+    if(listOfActions.size()>0){
+        //Reverses the last action that was taken
+        listOfActions.back()->reverseAction();
+        //Deallocates the memory
+        delete listOfActions.back();
+        //Deletes the pointer from the vector
+        listOfActions.pop_back();
+    }else{
+        cout << "You can't travel back before the beginning of time" << endl;
+    }
 }
 
 void Timeline::printData(){

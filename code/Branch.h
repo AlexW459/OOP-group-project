@@ -47,6 +47,8 @@ class Branch : public Printable{
 
         void grow(float areaIncrease, float &widthIncrease, float &lengthIncrease);
 
+        void decrementAge();
+
         void modifySize(float widthChange, float lengthChange);
 
         void draw(Mat* img);

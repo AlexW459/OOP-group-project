@@ -5,7 +5,7 @@ int Game::mouseXPos = 0;
 int Game::mouseYPos = 0;
 bool Game::mouseClicked = false;
 
-Game::Game(int windowWidth, int windowHeight) : gameRunning(true), currentState(MAIN_MENU){
+Game::Game(int windowWidth, int windowHeight) : currentState(MAIN_MENU){
     WINDOW_WIDTH = windowWidth;
     WINDOW_HEIGHT = windowHeight;
 
@@ -56,6 +56,10 @@ Game::Game(int windowWidth, int windowHeight) : gameRunning(true), currentState(
 
     //Sets the mouse callback function
     setMouseCallback("Time Travel Tree", Game::handleMouseClick);
+
+    //Tells the user how many supplies they have
+    cout << "You have " << gamePlayer->getWaterSupply() << "L of water" << endl;
+    cout << "You have " << gamePlayer->getFertiliserSupply() << "kg of fertiliser" << endl;
 
 }
 
@@ -141,8 +145,10 @@ void Game::handleInputs(){
         return;
     }
 
-    //Checks if any buttons are being pressed
     Point mousePos(Game::mouseXPos, Game::mouseYPos);
+    int prunedIndex = gameTree->getClickedIndex(mousePos.x, mousePos.y);
+
+    //Checks if any buttons are being pressed
     switch(currentState) {
     case MAIN_MENU:
         //Checks if the play button has been pressed
@@ -156,15 +162,19 @@ void Game::handleInputs(){
     break;
     case INSTRUCTION_MENU:
         if(buttonList[2]->contains(mousePos)){
+            //Goes back to main menu
             currentState = MAIN_MENU;
         }
 
     break;
     case PRUNING_ACTION:
+        
         if(buttonList[3]->contains(mousePos)){
+            //Exits the pruning state
             currentState = IN_GAME;
         }
-        else if(int prunedIndex = gameTree->getClickedIndex(mousePos.x, mousePos.y) != -1){
+        else if(prunedIndex != -1){
+            //Prunes a branch and returns to the regular game state
             gameTimeline->performAction(new PruningAction(gameTree, prunedIndex));
 
             currentState = IN_GAME;
@@ -213,10 +223,6 @@ void Game::handleInputs(){
 
 }
 
-
-bool Game::isRunning() {
-    return gameRunning;
-}
 
 void Game::printData(){
     cout << "Game object" << endl;

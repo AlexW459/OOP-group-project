@@ -103,6 +103,13 @@ void Branch::grow(float areaIncrease, float &widthIncrease, float &lengthIncreas
 
 }
 
+//Decreases the age by one
+void Branch::decrementAge(){
+    if(age>0){
+        age--;
+    }
+}
+
 void Branch::modifySize(float widthChange, float lengthChange){
     //Checks that the size modifications are valid
     if(branchRect.size.width + widthChange <= 0 || branchRect.size.height + lengthChange <= 0) {
