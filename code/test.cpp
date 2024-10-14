@@ -5,6 +5,8 @@
 #include "Tree.h"
 #include "Branch.h"
 #include "Timeline.h"
+#include <vector>
+
 int main() {
     // Test for Player
 
@@ -42,59 +44,66 @@ int main() {
     player.printData();  // Should show updated fertilizer supply
 
     // Indicate end of test
-    cout << "Player initialization test complete" << endl;
+    std::cout << "Player test complete" << std::endl;
 
 
 
     //Test using branch
     // Initialize a branch with specific parameters
-    Branch branch(0, -1, 45.0f, 100.0f, 20.0f, 50.0f, 50.0f);
+    Branch branch(0, -1, 45.0, 100.0, 20.0, 50.0, 50.0);
 
     // Test index and parent index
     if (branch.getIndex() == 0) {
-        cout << "Passed: Index is correct" << endl;
+        std::cout << "Passed: Index is correct" << std::endl;
     } else {
-        cout << "Failed: Index is incorrect" << endl;
+        std::cout << "Failed: Index is incorrect" << std::endl;
     }
 
     if (branch.getParentIndex() == -1) {
-        cout << "Passed: Parent index is correct" << endl;
+        std::cout << "Passed: Parent index is correct" << std::endl;
     } else {
-        cout << "Failed: Parent index is incorrect" << endl;
+        std::cout << "Failed: Parent index is incorrect" << std::endl;
     }
 
     // Test angle
-    if (branch.getAngle() == 45.0f) {
-        cout << "Passed: Angle is correct" << endl;
+    if (branch.getAngle() == 45.0) {
+        std::cout << "Passed: Angle is correct" << std::endl;
     } else {
-        cout << "Failed: Angle is incorrect" << endl;
+        std::cout << "Failed: Angle is incorrect" << std::endl;
     }
 
     // Test size (width * length = 20 * 100 = 2000)
-    if (branch.getSize() == 2000.0f) {
-        cout << "Passed: Size is correct" << endl;
+    if (branch.getSize() == 2000.0) {
+        std::cout << "Passed: Size is correct" << std::endl;
     } else {
-        cout << "Failed: Size is incorrect" << endl;
+        std::cout << "Failed: Size is incorrect" << std::endl;
     }
 
     // Test position of the tip
     float tipX, tipY;
     branch.getTipPos(tipX, tipY);
-    cout << "Tip position: (" << tipX << ", " << tipY << ")" << endl;
+    std::cout << "Tip position: (" << tipX << ", " << tipY << ")" << std::endl;
 
     // Indicate end of tests
-    cout << "Branch initialization test complete" << endl;
+    std::cout << "Branch test complete" << std::endl;
+
+
 
 
     //Test using timeline
-    
-    
+    // Create a Timeline object
+    Timeline timeline;
 
-    return 0;
+    // Perform the first action
+    Action* action = nullptr;  // Placeholder, testing the framework with a null action
+    timeline.performAction(action);
+    std::cout << "Performed an action successfully." << std::endl;
+
+    // Reverse the last action
+    timeline.reverseAction();
+    std::cout << "Reversed the last action successfully." << std::endl;
+
+    // Print the timeline (should be empty now)
+    timeline.printData();
 }
-
-
-
-
-
 
