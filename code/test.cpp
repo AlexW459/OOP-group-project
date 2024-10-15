@@ -131,7 +131,7 @@ int main() {
 
     //Test using Growing action
     // Create a trunk branch for the tree
-    Branch* trunk = new Branch(0, -1, 45, 100, 20, 50, 50); // Example parameters for trunk
+    trunk = new Branch(0, -1, 45, 100, 20, 50, 50); // Example parameters for trunk
 
     // Initialize the tree with some water and nutrients
     Tree myTree(20.0, 20.0, trunk);
@@ -177,13 +177,13 @@ int main() {
 
     //Test using Watering action and Fertilising action
     // Create a trunk branch for the tree
-    Branch* trunk = new Branch(0, -1, 0, 50, 10, 0, 0); // Example parameters for trunk
+    trunk = new Branch(0, -1, 0, 50, 10, 0, 0); // Example parameters for trunk
 
     // Initialize the tree with some water
-    Tree myTree(10.0, 20.0, trunk);  // Initial water and nutrients
+    myTree = Tree(10.0, 20.0, trunk);  // Initial water and nutrients
 
     // Create a player with initial water supply
-    Player* myPlayer = new Player(5.0, 0.0); // Example parameters for the player
+    myPlayer = new Player(5.0, 0.0); // Example parameters for the player
 
     // Print initial data
     std::cout << "Initial Tree Data:" << std::endl;
