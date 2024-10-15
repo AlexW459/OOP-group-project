@@ -9,6 +9,10 @@
 #include "WateringAction.h"
 #include "FertilisingAction.h"
 #include <vector>
+#include "PruningAction.h"
+#include "Clickable.h"
+#include <opencv2/opencv.hpp>
+
 
 int main() {
     // Test for Player
@@ -262,7 +266,61 @@ int main() {
 
     // Indicate end of tests
     std::cout << "Timeline test complete \n" << std::endl;
+
+
+
+    //Testing Pruning action
+    // Create a few more branches for testing
+    Branch* branch1 = new Branch(1, 0, 5, 30, 5, 1, 1);
+    Branch* branch2 = new Branch(2, 0, 10, 40, 6, 2, 2);
     
+    // Use the correct method to add branches (use addBranches)
+    vector<Branch*> branchesToAdd = {branch1, branch2};
+    myTree.addBranches(branchesToAdd);  // addBranches accepts a vector of branches
+
+    // Print initial tree data
+    std::cout << "Initial Tree Data: " << std::endl;
+    myTree.printData();
+
+    // Choose the index of the branch to prune (e.g., pruning branch 1)
+    int branchIndexToPrune = 1;
+
+    // Create a PruningAction object
+    PruningAction pruningAction(&myTree, branchIndexToPrune);
+
+    // Perform the pruning action
+    if (pruningAction.performAction()) {
+        std::cout << "Pruning action performed successfully." << std::endl;
+    } else {
+        std::cout << "Failed to perform pruning action." << std::endl;
+    }
+
+    // Print tree data after pruning
+    std::cout << "Tree Data After Pruning: " << std::endl;
+    myTree.printData();
+
+    // Print data for the pruning action
+    pruningAction.printData();
+
+    // Reverse the pruning action
+    pruningAction.reverseAction();
+    std::cout << "Pruning action reversed." << std::endl;
+
+    // Print tree data after reversing pruning
+    std::cout << "Tree Data After Reversing Pruning: " << std::endl;
+    myTree.printData();
+
+    // Indicate end of tests
+    std::cout << "Pruning test complete \n" << std::endl;
+
+    // Clean up dynamically allocated memory
+    delete trunk;
+    delete branch1;
+    delete branch2;
+
+    //Testing Clickable action
+
+  
 
     return 0;
 }
