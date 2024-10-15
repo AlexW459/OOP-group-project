@@ -128,7 +128,6 @@ int main() {
 
     // Indicate end of tests
     std::cout << "Tree test complete \n" << std::endl;
-    delete trunk;
 
 
 
@@ -174,7 +173,7 @@ int main() {
 
     // Indicate end of tests
     std::cout << "Growing action test complete \n" << std::endl;
-    delete trunk;
+
     delete myPlayer;
 
 
@@ -184,16 +183,16 @@ int main() {
     trunk = new Branch(0, -1, 0, 50, 10, 0, 0); // Example parameters for trunk
 
     // Initialize the tree with some water
-    myTree = Tree(10.0, 20.0, trunk);  // Initial water and nutrients
+    Tree newTree(10.0, 20.0, trunk);  // Initial water and nutrients
 
     // Create a player with initial water supply
-    myPlayer = new Player(5.0, 0.0); // Example parameters for the player
+    Player * newPlayer = new Player(5.0, 0.0); // Example parameters for the player
 
     // Print initial data
     std::cout << "Initial Tree Data:" << std::endl;
-    myTree.printData();
-    std::cout << "Initial Player Water Supply: " << myPlayer->getWaterSupply() << std::endl;
-    std::cout << "Initial Player Fertiliser Supply: " << myPlayer->getFertiliserSupply() << std::endl;
+    newTree.printData();
+    std::cout << "Initial Player Water Supply: " << newPlayer->getWaterSupply() << std::endl;
+    std::cout << "Initial Player Fertiliser Supply: " << newPlayer->getFertiliserSupply() << std::endl;
 
 
 
@@ -202,8 +201,8 @@ int main() {
     float FertiliserToAdd = 3.0;
 
     // Create a WateringAction object and FertilisingAction object
-    WateringAction wateringAction(myPlayer, &myTree, WaterToAdd);
-    FertilisingAction fertilisingAction(myPlayer, &myTree, FertiliserToAdd);
+    WateringAction wateringAction(newPlayer, &newTree, WaterToAdd);
+    FertilisingAction fertilisingAction(newPlayer, &newTree, FertiliserToAdd);
 
     // Perform the watering action
     if (wateringAction.performAction()) {
@@ -221,9 +220,9 @@ int main() {
 
     // Print data after watering and fertilising
     std::cout << "Tree Data After Watering and Fertilising:" << std::endl;
-    myTree.printData();
-    std::cout << "Player Water Supply After Watering: " << myPlayer->getWaterSupply() << std::endl;
-    std::cout << "Player Fertiliser Supply After Fertilising: " << myPlayer->getFertiliserSupply() << std::endl;
+    newTree.printData();
+    std::cout << "Player Water Supply After Watering: " << newPlayer->getWaterSupply() << std::endl;
+    std::cout << "Player Fertiliser Supply After Fertilising: " << newPlayer->getFertiliserSupply() << std::endl;
 
     // Print data for the watering and fertilising action
     wateringAction.printData();
@@ -238,12 +237,11 @@ int main() {
 
     // Print data after reversing the watering
     std::cout << "Tree Data After Reversing Watering and Fertilising:" << std::endl;
-    myTree.printData();
-    std::cout << "Player Water Supply After Reversing Watering: " << myPlayer->getWaterSupply() << std::endl;
-    std::cout << "Player Fertiliser Supply After Reversing fertilising: " << myPlayer->getFertiliserSupply() << std::endl;
+    newTree.printData();
+    std::cout << "Player Water Supply After Reversing Watering: " << newPlayer->getWaterSupply() << std::endl;
+    std::cout << "Player Fertiliser Supply After Reversing fertilising: " << newPlayer->getFertiliserSupply() << std::endl;
 
-    delete trunk;
-    delete myPlayer;
+    delete newPlayer;
 
 
 
@@ -251,9 +249,13 @@ int main() {
     //Test using timeline
     // Create a Timeline object
     Timeline timeline;
+    trunk = new Branch(0, -1, 0, 50, 10, 0, 0); // Example parameters for trunk
+    Tree* anotherTree = new Tree(10.0, 20.0, trunk);
+    Player* anotherPlayer = new Player(5.0, 0.0); // Example parameters for the player
+
 
     // Perform the first action
-    Action* action = nullptr;  // Placeholder, testing the framework with a null action
+    Action* action = new GrowingAction(anotherPlayer, anotherTree);  // Placeholder, testing the framework with a null action
     timeline.performAction(action);
     std::cout << "Performed an action successfully." << std::endl;
 
@@ -267,7 +269,7 @@ int main() {
     // Indicate end of tests
     std::cout << "Timeline test complete \n" << std::endl;
 
-
+    delete anotherTree;
 
     //Testing Pruning action
     // Create a few more branches for testing
@@ -313,15 +315,8 @@ int main() {
     // Indicate end of tests
     std::cout << "Pruning test complete \n" << std::endl;
 
-    // Clean up dynamically allocated memory
-    delete trunk;
-    delete branch1;
-    delete branch2;
-
-    //Testing Clickable action
-
+    delete anotherPlayer;
   
-
     return 0;
 }
 

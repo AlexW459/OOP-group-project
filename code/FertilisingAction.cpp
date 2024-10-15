@@ -5,8 +5,13 @@ FertilisingAction::FertilisingAction(Player* currentPlayer, Tree* currentTree, f
     WateringAction(currentPlayer, currentTree, kilogramsToAdd), nutrientsAdded(kilogramsToAdd){};
 
 bool FertilisingAction::performAction(){
-    if(playerToModify->useFertiliser(nutrientsAdded) && WateringAction::performAction()){
-        nutrientsAbsorbed = treeToModify->addNutrients(nutrientsAdded);;
+    if(playerToModify->useFertiliser(nutrientsAdded)){
+        if(WateringAction::performAction()){
+
+        nutrientsAbsorbed = treeToModify->addNutrients(nutrientsAdded);
+        }else{
+            playerToModify->addFertiliser(nutrientsAdded);
+        }
     }
     return true;
 };
